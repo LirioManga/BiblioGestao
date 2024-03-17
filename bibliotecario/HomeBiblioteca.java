@@ -17,10 +17,12 @@ public class HomeBiblioteca extends JFrame implements ActionListener{
 		artigos = new JButton("Artigos");
 		artigos.setBounds(120, 100, 150, 30);
 		artigos.setFocusable(false);
+		artigos.addActionListener(this);
 		
 		monografias = new JButton("Monografias");
 		monografias.setBounds(120, 160, 150, 30);
 		monografias.setFocusable(false);
+		monografias.addActionListener(this);
 		
 		add(livros);
 		add(artigos);
@@ -39,6 +41,13 @@ public class HomeBiblioteca extends JFrame implements ActionListener{
 		if(e.getSource() == livros){
 			dispose();
 			new Livros();
+		}else if(e.getSource() == artigos){
+			dispose();
+			new Artigos();
+			System.out.println("botao pessionado");
+		}else{
+			dispose();
+			
 		}
 	}
 	

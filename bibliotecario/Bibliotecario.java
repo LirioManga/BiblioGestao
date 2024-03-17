@@ -1,5 +1,5 @@
 package bibliotecario;
-
+import bibliotecario.HomeBiblioteca;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,12 +30,13 @@ public class Bibliotecario extends JFrame implements ActionListener{
 	// Frame
 	JPanel login;
 	JPanel painel;
+	
 	JPasswordField fieldSenha;
 	JLabel labelTitulo,labelNome,labelSenha;
 	JTextField fieldNome;
 	JButton buttonLogin;
 	
-	Bibliotecario(){
+	public Bibliotecario(){
 		setNome();
 		setSenha();
 		
@@ -111,6 +112,7 @@ public class Bibliotecario extends JFrame implements ActionListener{
 				fieldNome.setText("");
 				fieldSenha.setText("");
 				System.out.print("nome e senha incorreto");
+				JOptionPane.showMessageDialog(null,"Erro, tente novamente", "Dados incorrectos", JOptionPane.ERROR_MESSAGE);
 				
 			}else if(!senha.equals(getSenha())){
 				fieldSenha.setText("");

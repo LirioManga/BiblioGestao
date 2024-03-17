@@ -31,8 +31,8 @@ public class Home extends JFrame implements ActionListener{
         bem_vindo.setFont(new Font("mv boli", Font.ITALIC, 35));
 
         frase_motivacional = new JLabel();
-        frase_motivacional.setText("Seja um leitor, viaje pelo mundo sem deslocar-se!!");
-        frase_motivacional.setBounds(100,130, 500, 150);
+        frase_motivacional.setText("Encontre seu livro, artigo ou monografia");
+        frase_motivacional.setBounds(125,130, 500, 150);
         frase_motivacional.setFont(new Font("mv boli", Font.ITALIC, 20));
 
         botao_entrar = new JButton("Entrar");
@@ -64,8 +64,11 @@ public class Home extends JFrame implements ActionListener{
         if(e.getSource() == adminItem){
 			dispose();
             new Bibliotecario();
-        }else if(e.getSource() == botao_entrar){
-			new Livros();
+        }else if(e.getSource() == exitItem){
+            dispose();
+        }
+        else if(e.getSource() == botao_entrar){
+			new Visitante();
 			dispose();
 		}
     }

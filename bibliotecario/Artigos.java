@@ -1,23 +1,23 @@
 package bibliotecario;
 
 
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 
-public class Livros extends JFrame implements ActionListener{
-	
-	JButton adicionar,voltar;
+public class Artigos extends JFrame implements ActionListener{
+    
+    JButton adicionar,voltar;
 	public static JTable tabela;
 	public static DefaultTableModel modelo;
 	public static JScrollPane scrollPane;
 	public static JPanel tabelaPanel;
-	
-	public Livros(){
-		// tabela
-		
-		modelo = new DefaultTableModel();
+
+    public Artigos(){
+
+        modelo = new DefaultTableModel();
 		modelo.addColumn("Autor");
 		modelo.addColumn("Titulo");
 		modelo.addColumn("Editora");
@@ -56,16 +56,17 @@ public class Livros extends JFrame implements ActionListener{
 		add(voltar);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
+        this.setTitle("Artigos");
 		this.setSize(700,500);
 		this.setVisible(true);
 	}
 	
-	FormLivros form;
+	FormArtigos form;
 	
 	@Override
 	public void actionPerformed (ActionEvent e){
 		if(e.getSource() == adicionar){
-			form = new FormLivros();
+			form = new FormArtigos();
 			
 		}else{
 			
@@ -74,5 +75,5 @@ public class Livros extends JFrame implements ActionListener{
 		}
 		
 	}
-
 }
+
