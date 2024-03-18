@@ -1,4 +1,5 @@
 package bibliotecario;
+import visitante.Visitante;
 
 import java.awt.*;
 import java.awt.event.*;

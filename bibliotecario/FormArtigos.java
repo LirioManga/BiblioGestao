@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import artigos.Artigos;
+
 public class FormArtigos extends JFrame implements ActionListener{
     public String autor = "";
 	public String titulo = "";

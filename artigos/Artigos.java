@@ -1,11 +1,14 @@
-package bibliotecario;
-
+package artigos;
+import bibliotecario.Home;
+import bibliotecario.FormArtigos;
 
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+
+
 
 public class Artigos extends JFrame implements ActionListener{
     

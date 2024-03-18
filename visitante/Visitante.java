@@ -1,5 +1,5 @@
-package bibliotecario;
-import bibliotecario.HomeBiblioteca;
+package visitante;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
