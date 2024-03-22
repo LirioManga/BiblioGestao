@@ -1,11 +1,9 @@
 package bibliotecario;
 
-
-import javax.swing.*;
-
 import artigos.Artigos;
 import livros.Livros;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 public class HomeBiblioteca extends JFrame implements ActionListener{
@@ -30,7 +28,7 @@ public class HomeBiblioteca extends JFrame implements ActionListener{
 		
 		add(livros);
 		add(artigos);
-		add(monografias);
+		//add(monografias);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(400, 350);

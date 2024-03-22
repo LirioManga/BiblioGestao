@@ -94,9 +94,6 @@ public class Bibliotecario extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e){
-		JLabel incorrecto;
-		incorrecto = new JLabel("incorrecto");
-			
 			
 		if(e.getSource() == buttonLogin){
 			String nome = fieldNome.getText();

@@ -1,7 +1,6 @@
 package bibliotecario;
 
 import javax.swing.*;
-
 import livros.Livros;
 
 import java.sql.Connection;
@@ -19,7 +18,6 @@ public class FormLivros extends JFrame implements ActionListener{
 	public String editora = "";
 	public String categoria = "";
 	
-	// setters & getters
 	
 	// FormLivros
 	JLabel labAutor, labTitulo, labEditora, labCategoria;
@@ -73,6 +71,8 @@ public class FormLivros extends JFrame implements ActionListener{
 		this.setLayout(null);
 		this.setSize(350,300);
 		this.setVisible(true);
+		
+		
 	}
 	
 	@Override
@@ -87,7 +87,16 @@ public class FormLivros extends JFrame implements ActionListener{
 				Object[] novoLivro = {autor, titulo,editora,categoria};
 				Livros.modelo.addRow(novoLivro);
 				
-				String url = "jdbc:mysql://localhost:3306/biblioteca";
+				adicionarLivros();
+			
+				this.setVisible(false);
+			}
+		}
+	}
+	
+	
+	public void adicionarLivros(){
+		String url = "jdbc:mysql://localhost:3306/biblioteca";
 				String usuario = "root";
 				String senha = "";
 				
@@ -126,10 +135,7 @@ public class FormLivros extends JFrame implements ActionListener{
 				textCategoria.setText("");
 				textEditora.setText("");
 				textTitulo.setText("");
-			}
 			
-			this.setVisible(false);
-			
-		}
+		
 	}
 }

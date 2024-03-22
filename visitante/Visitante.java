@@ -19,8 +19,6 @@ public class Visitante extends JFrame {
         modelo = new DefaultTableModel();
         tabela = new JTable(modelo);
 
-     
-        modelo.addColumn("ID");
         modelo.addColumn("Autor");
         modelo.addColumn("Titulo");
         modelo.addColumn("Editora");
@@ -28,7 +26,7 @@ public class Visitante extends JFrame {
 
       
         JScrollPane scrollPane = new JScrollPane(tabela);
-        scrollPane.setBounds(10, 10, 500, 200);
+        scrollPane.setBounds(10, 10, 600, 500);
         add(scrollPane);
 
       
