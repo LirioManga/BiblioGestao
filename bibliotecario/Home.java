@@ -1,5 +1,6 @@
 package bibliotecario;
 import visitante.Visitante;
+import administrador.Admin;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,7 +9,7 @@ import javax.swing.*;
 public class Home extends JFrame implements ActionListener{
     JMenuBar menu;
     JMenu home;
-    JMenuItem adminItem, homeItem, exitItem;
+    JMenuItem adminItem, bibliotecarioItem, exitItem;
 
     JLabel bem_vindo, frase_motivacional;
     JButton botao_entrar;
@@ -17,11 +18,13 @@ public class Home extends JFrame implements ActionListener{
         // menu
         menu = new JMenuBar();
         home = new JMenu("Menu");
-        adminItem = new JMenuItem("Bibliotecario");
+        adminItem = new JMenuItem("Admin");
+        bibliotecarioItem = new JMenuItem("Bibliotecario");
         exitItem = new JMenuItem("Sair");
 
 		// eventos
-		adminItem.addActionListener(this);
+        adminItem.addActionListener(this);
+		bibliotecarioItem.addActionListener(this);
 		exitItem.addActionListener(this);
 
 
@@ -45,6 +48,7 @@ public class Home extends JFrame implements ActionListener{
 
         // Adicionando elementos ao frame
         home.add(adminItem);
+        home.add(bibliotecarioItem);
         home.add(exitItem);
         menu.add(home);
         this.add(bem_vindo);
@@ -63,6 +67,10 @@ public class Home extends JFrame implements ActionListener{
     @Override
     public void actionPerformed (ActionEvent e){
         if(e.getSource() == adminItem){
+            dispose();
+            new Admin();
+            System.out.print("entrando como administrador");
+        }else if(e.getSource() == bibliotecarioItem){
 			dispose();
             new Bibliotecario();
         }else if(e.getSource() == exitItem){

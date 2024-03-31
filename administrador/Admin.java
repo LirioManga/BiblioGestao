@@ -1,30 +1,49 @@
-package bibliotecario;
-import bibliotecario.HomeBiblioteca;
+package administrador;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
+import java.awt.*;
+
+public class Admin extends JFrame implements ActionListener{
+    private String name;
+	private String password;
 
 
-public class Bibliotecario extends JFrame implements ActionListener{
+    // setters & getters
+	public void setNome(){
+		this.name = "Lirio";
+	}
 	
-	// Frame
-	JPanel login;
+	public String getNome(){
+		return name;
+	}
+	
+	public void setSenha(){
+		this.password = "lirio10";
+	}
+	
+	public String getSenha(){
+		return password;
+	}
+
+    JPanel login;
 	JPanel painel;
 	
-	JPasswordField fieldSenha;
+
 	JLabel labelTitulo,labelNome,labelSenha;
-	JTextField fieldNome;
+	JTextField fieldNome, fieldSenha;
 	JButton buttonLogin;
 	
-	public Bibliotecario(){
-		
+	public Admin(){
+		setSenha();
+		setNome();
+
 		login = new JPanel();
 		login.setBounds(130,90,400,300);
 		login.setLayout(null);
 		login.setBackground(new Color(0x123456));
 		
-		labelTitulo = new JLabel("Bibliotecario");
+		labelTitulo = new JLabel("Administrador");
 		labelTitulo.setBounds(90, 20, 300, 30);
 		labelTitulo.setFont(new Font("mv boli", Font.BOLD, 30));
 		labelTitulo.setForeground(Color.white);
@@ -40,7 +59,7 @@ public class Bibliotecario extends JFrame implements ActionListener{
 		labelSenha.setBounds(100, 140, 50, 25);
 		labelSenha.setForeground(Color.white);
 		
-		fieldSenha = new JPasswordField();
+		fieldSenha = new JTextField();
 		fieldSenha.setBounds(140,140,130,25);
 		
 		
@@ -62,19 +81,34 @@ public class Bibliotecario extends JFrame implements ActionListener{
 		// frame settings
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Bibliotecario");
+		this.setTitle("Administrador");
 		this.setLayout(null);
 		this.setSize(700,500);
 		this.setVisible(true);
 		add(login);
 		
 	}
-	
-	
-	@Override
-	public void actionPerformed(ActionEvent e){
+
+    @Override
+    public void actionPerformed (ActionEvent e){
+        if(e.getSource() == buttonLogin){
+			String nome = fieldNome.getText();
+			String senha = fieldSenha.getText();
 			
+			
+			if (nome.equals(getNome()) && senha.equals(getSenha())) {
+				dispose();
+				new CadastroBibliotecario();
+			
+			} else {
+				fieldNome.setText("");
+				fieldSenha.setText("");
+				System.out.println("Nome ou senha incorretos");
+				JOptionPane.showMessageDialog(null,"Erro, tente novamente", "Dados incorretos", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
 		
 	}
-	
 }
+
