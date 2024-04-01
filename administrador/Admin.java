@@ -3,29 +3,10 @@ package administrador;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.sql.*;
 
 public class Admin extends JFrame implements ActionListener{
-    private String name;
-	private String password;
-
-
-    // setters & getters
-	public void setNome(){
-		this.name = "Lirio";
-	}
-	
-	public String getNome(){
-		return name;
-	}
-	
-	public void setSenha(){
-		this.password = "lirio10";
-	}
-	
-	public String getSenha(){
-		return password;
-	}
-
+ 
     JPanel login;
 	JPanel painel;
 	
@@ -33,10 +14,18 @@ public class Admin extends JFrame implements ActionListener{
 	JLabel labelTitulo,labelNome,labelSenha;
 	JTextField fieldNome, fieldSenha;
 	JButton buttonLogin;
+	Connection connection;
 	
 	public Admin(){
-		setSenha();
-		setNome();
+		try {
+            
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+
 
 		login = new JPanel();
 		login.setBounds(130,90,400,300);
@@ -91,24 +80,39 @@ public class Admin extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed (ActionEvent e){
-        if(e.getSource() == buttonLogin){
-			String nome = fieldNome.getText();
-			String senha = fieldSenha.getText();
-			
-			
-			if (nome.equals(getNome()) && senha.equals(getSenha())) {
-				dispose();
-				new CadastroBibliotecario();
-			
-			} else {
-				fieldNome.setText("");
-				fieldSenha.setText("");
-				System.out.println("Nome ou senha incorretos");
-				JOptionPane.showMessageDialog(null,"Erro, tente novamente", "Dados incorretos", JOptionPane.ERROR_MESSAGE);
+
+		String nome = fieldNome.getText();
+        String senha = fieldSenha.getText();
+
+		if(e.getSource() == buttonLogin){
+
+			try {
+				
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM admin WHERE username=? AND senha=?");
+				statement.setString(1, nome);
+				statement.setString(2, senha);
+				ResultSet result = statement.executeQuery();
+				
+				if (result.next()) {
+					dispose();
+					new CadastroBibliotecario();
+				
+				} else {
+					fieldNome.setText("");
+					fieldSenha.setText("");
+					System.out.println("Nome ou senha incorretos");
+					JOptionPane.showMessageDialog(null,"Erro, tente novamente", "Dados incorretos", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				statement.close();
+				result.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Erro ao acessar o banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-			
+		}
 		}
 		
-	}
 }
+
 

@@ -77,8 +77,8 @@ public class Home extends JFrame implements ActionListener{
             dispose();
         }
         else if(e.getSource() == botao_entrar){
+            dispose();
 			new Visitante();
-			dispose();
 		}
     }
     
