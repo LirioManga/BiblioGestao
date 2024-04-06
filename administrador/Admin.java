@@ -12,7 +12,8 @@ public class Admin extends JFrame implements ActionListener{
 	
 
 	JLabel labelTitulo,labelNome,labelSenha;
-	JTextField fieldNome, fieldSenha;
+	JTextField fieldNome;
+	JPasswordField  fieldSenha;
 	JButton buttonLogin;
 	Connection connection;
 	
@@ -48,7 +49,7 @@ public class Admin extends JFrame implements ActionListener{
 		labelSenha.setBounds(100, 140, 50, 25);
 		labelSenha.setForeground(Color.white);
 		
-		fieldSenha = new JTextField();
+		fieldSenha = new JPasswordField();
 		fieldSenha.setBounds(140,140,130,25);
 		
 		
@@ -82,7 +83,7 @@ public class Admin extends JFrame implements ActionListener{
     public void actionPerformed (ActionEvent e){
 
 		String nome = fieldNome.getText();
-        String senha = fieldSenha.getText();
+        String senha = String.valueOf(fieldSenha.getPassword());
 
 		if(e.getSource() == buttonLogin){
 

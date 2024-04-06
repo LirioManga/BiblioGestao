@@ -11,7 +11,8 @@ public class Visitante extends JFrame implements ActionListener{
 
     private DefaultListModel<String> listModel;
     private JList<String> list;
-    JButton voltarButton;
+    JButton voltarButton, pesquisarButton;
+    JTextField searchBar;
 
     public Visitante() {
         setTitle("Livros");
@@ -26,28 +27,31 @@ public class Visitante extends JFrame implements ActionListener{
         scrollPane.setBounds(10, 50, 600, 400);
         add(scrollPane);
 
-        JTextField searchBar = new JTextField();
+        searchBar = new JTextField();
         searchBar.setBounds(10, 10, 380, 30);
         add(searchBar);
 
         
-        JButton searchButton = new JButton("Pesquisar");
-        searchButton.setBounds(400, 10, 100, 30);
-        add(searchButton);
+        pesquisarButton = new JButton("Pesquisar");
+        pesquisarButton.setBounds(400, 10, 100, 30);
+        pesquisarButton.setFocusable(false);
+        pesquisarButton.addActionListener(this);
+      
 
         voltarButton = new JButton("Voltar");
         voltarButton.setFocusable(false);
         voltarButton.setBounds(510, 10,100,30);
         voltarButton.addActionListener(this);
 
-        searchButton.addActionListener(new ActionListener() {
+        /*searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchTerm = searchBar.getText();
                 preencherLista(searchTerm);
             }
-        });
+        });*/
 
+        add(pesquisarButton);
         add(voltarButton);
         setVisible(true);
     }
@@ -57,11 +61,14 @@ public class Visitante extends JFrame implements ActionListener{
         if(e.getSource() == voltarButton){
             dispose();
             new Home();
+        }else if(e.getSource() == pesquisarButton){
+            String pesquisarLivro = searchBar.getText();
+            preencherLista(pesquisarLivro);
         }
     }
 
     private void preencherLista(String searchTerm) {
-        listModel.clear(); // Limpa a lista antes de adicionar novos itens
+        listModel.clear(); 
 
         String url = "jdbc:mysql://localhost:3306/biblioteca";
         String usuario = "root";

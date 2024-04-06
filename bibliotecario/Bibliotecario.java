@@ -88,7 +88,7 @@ public class Bibliotecario extends JFrame implements ActionListener {
                 } else {
                 
                     JOptionPane.showMessageDialog(null,"Nome ou email incorretos", "Erro de login", JOptionPane.ERROR_MESSAGE);
-                }//' or '1'='1
+                }//' or '1'='1   #BDC7E6
                 
                 statement.close();
                 result.close();

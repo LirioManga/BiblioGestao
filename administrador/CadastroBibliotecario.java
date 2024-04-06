@@ -36,7 +36,7 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
         tituloLabel.setBounds(10, 10, 650, 40);
         tituloLabel.setFont(new Font("MV BOLI", Font.PLAIN, 20));
 
-        Border linBorderTitulo = BorderFactory.createLineBorder(Color.BLACK, 2);
+        Border linBorderTitulo = BorderFactory.createLineBorder(new Color(0xBDC7E6), 2);
         Border emptyBorderTitulo = BorderFactory.createEmptyBorder(0,200, 0, 100);
         Border compoundBorderTitulo = BorderFactory.createCompoundBorder(linBorderTitulo, emptyBorderTitulo);
 
@@ -132,7 +132,7 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
         campoPesquisaTextField = new JTextField();
         campoPesquisaTextField.setBounds(420,280,200,30);
         campoPesquisaTextField.addActionListener(this);
-        //340
+      
         // Tabela para visualizacao de dados
         modelo = new DefaultTableModel();
 
@@ -201,8 +201,6 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
             
         } else if(e.getSource() == pesquisarButton){
             String pesquisa = campoPesquisaTextField.getText();
-
-
             System.out.println("pesquisando");
             pesquisarNaBaseDeDados(pesquisa);
 
@@ -210,9 +208,9 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
 
             int rowIndex = tabela.getSelectedRow();
             if (rowIndex != -1) {
-                String nome = (String) tabela.getValueAt(rowIndex, 0); // obtém o nome na coluna 0 (nome)
+                String nome = (String) tabela.getValueAt(rowIndex, 0); 
                 removerDoBancoDeDados(nome);
-                ((DefaultTableModel) tabela.getModel()).removeRow(rowIndex); // remove a linha da tabela
+                ((DefaultTableModel) tabela.getModel()).removeRow(rowIndex); 
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um registro para excluir.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -220,6 +218,7 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
             dispose();
             new Home();
         }
+
     }
 
 
