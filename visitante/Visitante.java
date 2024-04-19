@@ -43,13 +43,6 @@ public class Visitante extends JFrame implements ActionListener{
         voltarButton.setBounds(510, 10,100,30);
         voltarButton.addActionListener(this);
 
-        /*searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String searchTerm = searchBar.getText();
-                preencherLista(searchTerm);
-            }
-        });*/
 
         add(pesquisarButton);
         add(voltarButton);

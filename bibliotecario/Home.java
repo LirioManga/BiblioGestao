@@ -1,4 +1,5 @@
 package bibliotecario;
+import visitante.RegistoVisitante;
 import visitante.Visitante;
 import administrador.Admin;
 
@@ -78,7 +79,7 @@ public class Home extends JFrame implements ActionListener{
         }
         else if(e.getSource() == botao_entrar){
             dispose();
-			new Visitante();
+			new RegistoVisitante();
 		}
     }
     
