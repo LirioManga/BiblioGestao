@@ -10,7 +10,7 @@ import javax.swing.*;
 public class Home extends JFrame implements ActionListener{
     JMenuBar menu;
     JMenu home;
-    JMenuItem adminItem, bibliotecarioItem, exitItem;
+    JMenuItem adminItem, bibliotecarioItem, exitItem, outroItem;
 
     JLabel bem_vindo, frase_motivacional;
     JButton botao_entrar;
@@ -22,11 +22,13 @@ public class Home extends JFrame implements ActionListener{
         adminItem = new JMenuItem("Admin");
         bibliotecarioItem = new JMenuItem("Bibliotecario");
         exitItem = new JMenuItem("Sair");
+        outroItem = new JMenuItem("Outro");
 
 		// eventos
         adminItem.addActionListener(this);
 		bibliotecarioItem.addActionListener(this);
 		exitItem.addActionListener(this);
+        outroItem.addActionListener(this);
 
 
         // elementos no frame
@@ -51,6 +53,7 @@ public class Home extends JFrame implements ActionListener{
         home.add(adminItem);
         home.add(bibliotecarioItem);
         home.add(exitItem);
+        home.add(outroItem);
         menu.add(home);
         this.add(bem_vindo);
         this.add(frase_motivacional);
@@ -80,7 +83,12 @@ public class Home extends JFrame implements ActionListener{
         else if(e.getSource() == botao_entrar){
             dispose();
 			new RegistoVisitante();
-		}
+		}else if(e.getSource() == outroItem){
+        
+            System.out.println("OUTRO ADICIONADO");
+            new Outro();
+            dispose();
+        }
     }
     
 }
