@@ -22,7 +22,7 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
     ButtonGroup sexo;
     JPanel sexoPanel,tituloPanel;
 
-    JButton concluirButton, excluirButton, pesquisarButton, voltarButton;
+    JButton concluirButton, excluirButton, pesquisarButton, voltarButton, visitanteButton;
     DefaultTableModel modelo;
     JTable tabela;
     JScrollPane scrollPane;
@@ -113,7 +113,7 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
         concluirButton.addActionListener(this);
 
         excluirButton = new JButton("Excluir");
-        excluirButton.setBounds(140,280,90,30);
+        excluirButton.setBounds(120,280,90,30);
         excluirButton.setFocusable(false);
         excluirButton.addActionListener(this);
 
@@ -125,8 +125,13 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
 
         voltarButton = new JButton("Voltar");
         voltarButton.setFocusable(false);
-        voltarButton.setBounds(270, 280,90,30);
+        voltarButton.setBounds(220, 280,90,30);
         voltarButton.addActionListener(this);
+
+        visitanteButton = new JButton("Visitantes");
+        visitanteButton.setFocusable(false);
+        visitanteButton.setBounds(320, 280,90,30);
+        visitanteButton.addActionListener(this);
 
 
         campoPesquisaTextField = new JTextField();
@@ -146,7 +151,7 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
         scrollPane = new JScrollPane(tabela);
         scrollPane.setBounds(10, 320,660,140);
 
-        // preenchendo a tabela com dados da base de dados
+    
         buscarDadosBancoDeDados();
 
         // adicao de elementos
@@ -167,8 +172,10 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
         add(campoPesquisaTextField);
         add(pesquisarButton);
         add(voltarButton);
+        add(visitanteButton);
         this.setTitle("Cadastro Bibliotecário");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setSize(700, 500);
         this.setVisible(true);
@@ -214,7 +221,9 @@ public class CadastroBibliotecario extends JFrame implements ActionListener, Ite
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um registro para excluir.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }else if(e.getSource()==voltarButton){
+        }else if (e.getSource() == visitanteButton) {
+
+        }else if(e.getSource() == voltarButton){
             dispose();
             new Home();
         }

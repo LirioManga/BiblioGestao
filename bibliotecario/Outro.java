@@ -9,8 +9,8 @@ import java.net.*;
 public class Outro extends JFrame implements ActionListener{
     
     JPanel login;
-    JLabel labelTitulo, labelNome, labelSenha;
-    JTextField fieldNome;
+    JLabel labelTitulo, labelNome, labelSenha, ipLabel;
+    JTextField fieldNome, ipTextField;
     JPasswordField fieldSenha;
     JButton buttonLogin;
     Connection connection;
@@ -44,6 +44,13 @@ public class Outro extends JFrame implements ActionListener{
         labelSenha = new JLabel("Senha");
         labelSenha.setBounds(100, 140, 50, 25);
         labelSenha.setForeground(Color.white);
+
+        ipLabel = new JLabel("IP address: ");
+        ipLabel.setBounds(70, 180,70,25);
+        ipLabel.setForeground(Color.white);
+
+        ipTextField = new JTextField();
+        ipTextField.setBounds(140,180,130,25);
         
         fieldSenha = new JPasswordField();
         fieldSenha.setBounds(140,140,130,25);
@@ -51,7 +58,7 @@ public class Outro extends JFrame implements ActionListener{
         
         buttonLogin = new JButton("login");
         buttonLogin.setFont(new Font("mv boli", Font.ITALIC, 15));
-        buttonLogin.setBounds(160, 200, 90, 30);
+        buttonLogin.setBounds(160, 240, 90, 30);
         buttonLogin.setFocusable(false);
         buttonLogin.addActionListener(this);
         
@@ -61,6 +68,8 @@ public class Outro extends JFrame implements ActionListener{
         login.add(fieldNome);
         login.add(labelSenha);
         login.add(fieldSenha);
+        login.add(ipLabel);
+        login.add(ipTextField);
         login.add(buttonLogin);
         
         // frame settings
@@ -68,11 +77,13 @@ public class Outro extends JFrame implements ActionListener{
         this.setTitle("Outro");
         this.setLayout(null);
         this.setSize(700,500);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         add(login);
     }
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == buttonLogin) {
+            String ipIntroduzido = ipTextField.getText();
 
             try {
 
@@ -80,7 +91,7 @@ public class Outro extends JFrame implements ActionListener{
                 String ip = localhost.getHostAddress();
 
                 System.out.println(ip);
-                if (!ip.equals("192.168.110.1")) {
+                if (!ip.equals(ipIntroduzido)) {
                     JOptionPane.showMessageDialog(null, "Acesso permitido apenas a partir do IP 192.168.111.1", "Erro de acesso", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

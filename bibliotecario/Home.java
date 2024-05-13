@@ -6,14 +6,17 @@ import administrador.Admin;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-public class Home extends JFrame implements ActionListener{
+public class Home extends JFrame implements ActionListener, MouseListener{
     JMenuBar menu;
     JMenu home;
     JMenuItem adminItem, bibliotecarioItem, exitItem, outroItem;
+    JPanel panel;
+    ImageIcon logoUP;
 
-    JLabel bem_vindo, frase_motivacional;
-    JButton botao_entrar;
+    JLabel bem_vindo, frase_motivacional, logo;
+    JButton botao_entrar, login, sobre;
     
     public Home(){
         // menu
@@ -31,22 +34,63 @@ public class Home extends JFrame implements ActionListener{
         outroItem.addActionListener(this);
 
 
+        // panel
+        panel = new JPanel(null);
+        panel.setBounds(0,0,900,80);
+        panel.setBackground(new Color(11, 77, 156));
+
+        logoUP = new ImageIcon("D:\\LICENCIATURA EM INFORMATICA\\3ANO\\1st\\JAVA\\projecto\\javaIconsProj\\up.png");
+        logo = new JLabel(logoUP);
+        logo.setIcon(new ImageIcon(getScaledImage(logoUP.getImage(), 80, 80)));
+        logo.setBounds(10, 4, 80, 80);
+        panel.add(logo);
+        
+
         // elementos no frame
         bem_vindo = new JLabel();
-        bem_vindo.setText("Bem vindo");
-        bem_vindo.setBounds(250, 80, 350, 150);
-        bem_vindo.setFont(new Font("mv boli", Font.ITALIC, 35));
+        bem_vindo.setText("Biblioteca UP");
+        bem_vindo.setBounds(300, 180, 350, 150);
+        bem_vindo.setFont(new Font("Consola", Font.PLAIN, 50));
 
         frase_motivacional = new JLabel();
-        frase_motivacional.setText("Encontre seu livro, artigo ou monografia");
-        frase_motivacional.setBounds(125,130, 500, 150);
-        frase_motivacional.setFont(new Font("mv boli", Font.ITALIC, 20));
+        frase_motivacional.setText("CPED");
+        frase_motivacional.setBounds(400,250, 500, 150);
+        frase_motivacional.setFont(new Font("Consola", Font.ITALIC, 30));
 
         botao_entrar = new JButton("Entrar");
         botao_entrar.setFocusable(false);
-        botao_entrar.setBackground(Color.BLUE);
-        botao_entrar.setBounds(280, 240, 120, 50);
+        botao_entrar.setBackground(new Color(11, 77, 156));
+        botao_entrar.setBounds(390, 400, 100, 35);
 		botao_entrar.addActionListener(this);
+
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(null); 
+        buttonPanel.setBackground(new Color(11, 77, 156));
+        buttonPanel.setBounds(650, 4, 250, 80);
+        panel.add(buttonPanel);
+
+        login = new JButton("Login");
+        login.setBounds(10, 15, 80, 30);
+        login.setContentAreaFilled(false);
+        login.setFocusable(false);
+        login.setBorder(null);
+        login.setForeground(Color.WHITE);
+        login.addActionListener(this);
+        login.addMouseListener(this);
+        buttonPanel.add(login);
+
+        sobre = new JButton("Sobre");
+        sobre.setBounds(120, 15, 80, 30); 
+        sobre.setContentAreaFilled(false);
+        sobre.setFocusable(false);
+        sobre.setBorder(null);
+        sobre.setForeground(Color.WHITE);
+        sobre.addMouseListener(this);
+        buttonPanel.add(sobre);
+
+        panel.add(buttonPanel);
+
 
 
         // Adicionando elementos ao frame
@@ -55,21 +99,38 @@ public class Home extends JFrame implements ActionListener{
         home.add(exitItem);
         home.add(outroItem);
         menu.add(home);
+        this.add(panel);
         this.add(bem_vindo);
         this.add(frase_motivacional);
         this.add(botao_entrar);
 		
 
         // frame settings
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(null);
-        this.setSize(700, 500);
+        this.setSize(900, 600);
         this.setJMenuBar(menu);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }		
 
+    private Image getScaledImage(Image srcImg, int width, int height) {
+
+        return srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+  
+    }
+
     @Override
     public void actionPerformed (ActionEvent e){
+        // NOVO
+            if(e.getSource() == login){
+               this.setVisible(false);
+                new Admin();
+            }
+
+
+
+        // ANTIGO 
         if(e.getSource() == adminItem){
             dispose();
             new Admin();
@@ -90,5 +151,34 @@ public class Home extends JFrame implements ActionListener{
             dispose();
         }
     }
-    
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+      if(e.getSource() == login){
+        login.setForeground(Color.ORANGE);
+      }else {
+        sobre.setForeground(Color.ORANGE);
+      }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if(e.getSource() == login){
+            login.setForeground(Color.WHITE);
+          }else{
+            sobre.setForeground(Color.WHITE);
+          }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
 }

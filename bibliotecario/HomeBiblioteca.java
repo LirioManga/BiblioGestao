@@ -30,8 +30,9 @@ public class HomeBiblioteca extends JFrame implements ActionListener{
 		add(artigos);
 		//add(monografias);
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(400, 350);
+		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		this.setVisible(true);
 		

@@ -58,7 +58,7 @@ public class Livros extends JFrame implements ActionListener{
 		add(tabelaPanel);
 		add(adicionar);
 		add(voltar);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLayout(null);
 		this.setSize(700,500);
 		this.setVisible(true);

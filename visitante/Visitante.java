@@ -46,6 +46,7 @@ public class Visitante extends JFrame implements ActionListener{
 
         add(pesquisarButton);
         add(voltarButton);
+        this.setLocationRelativeTo(null);
         setVisible(true);
     }
 

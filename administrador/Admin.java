@@ -18,15 +18,6 @@ public class Admin extends JFrame implements ActionListener{
 	Connection connection;
 	
 	public Admin(){
-		try {
-            
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-
 
 		login = new JPanel();
 		login.setBounds(130,90,400,300);
@@ -70,10 +61,11 @@ public class Admin extends JFrame implements ActionListener{
 			
 		// frame settings
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setTitle("Administrador");
 		this.setLayout(null);
 		this.setSize(700,500);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		add(login);
 		
@@ -84,6 +76,16 @@ public class Admin extends JFrame implements ActionListener{
 
 		String nome = fieldNome.getText();
         String senha = String.valueOf(fieldSenha.getPassword());
+
+		try {
+            
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
+        } catch (SQLException sqlex) {
+            sqlex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+
 
 		if(e.getSource() == buttonLogin){
 

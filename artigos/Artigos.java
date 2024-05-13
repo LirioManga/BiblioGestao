@@ -57,7 +57,7 @@ public class Artigos extends JFrame implements ActionListener{
 		add(tabelaPanel);
 		add(adicionar);
 		add(voltar);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLayout(null);
         this.setTitle("Artigos");
 		this.setSize(700,500);

@@ -1,6 +1,9 @@
 package visitante;
 
 import javax.swing.*;
+
+import bibliotecario.Home;
+
 import java.awt.event.*;
 import java.util.Date;
 import java.sql.*;
@@ -59,13 +62,19 @@ public class RegistoVisitante extends JFrame implements ActionListener{
             String contacto = campoContacto.getText();
             String instituicao = (String) comboBox.getSelectedItem();
 
-            Date data = new Date();
-            Timestamp timestamp = new Timestamp(data.getTime());
+            if (nome.isEmpty() || contacto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.", "Erro de Preenchimento", JOptionPane.ERROR_MESSAGE);
+                new Home();
+                
+            }else{
 
-
-            dadosVisitantes(nome,instituicao,contacto, timestamp);
-
-            new Visitante();
+                
+                Date data = new Date();
+                Timestamp timestamp = new Timestamp(data.getTime());
+                dadosVisitantes(nome,instituicao,contacto, timestamp);
+                new Visitante();
+            }
+            
         }
 
     }
