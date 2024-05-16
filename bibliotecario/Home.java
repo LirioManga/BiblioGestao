@@ -6,7 +6,8 @@ import administrador.Admin;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+
+import java.net.URI;
 
 public class Home extends JFrame implements ActionListener, MouseListener{
     JMenuBar menu;
@@ -196,6 +197,16 @@ public class Home extends JFrame implements ActionListener, MouseListener{
             System.out.println("OUTRO ADICIONADO");
             new Outro();
             dispose();
+        }else if(e.getSource() == gitHubButton){
+            openRepository("https://github.com/LirioManga/BibliotecaRepositorio");
+        }
+    }
+
+     private void openRepository(String link) {
+        try {
+            Desktop.getDesktop().browse(new URI(link));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
