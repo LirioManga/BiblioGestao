@@ -1,11 +1,15 @@
 package administrador;
 
 import javax.swing.*;
+
+import bibliotecario.Home;
+import bibliotecario.Sobre;
+
 import java.awt.event.*;
 import java.awt.*;
 import java.sql.*;
 
-public class Admin extends JFrame implements ActionListener{
+public class Admin extends JPanel implements ActionListener,WindowListener{
  
     JPanel login;
 	JPanel painel;
@@ -20,33 +24,33 @@ public class Admin extends JFrame implements ActionListener{
 	public Admin(){
 
 		login = new JPanel();
-		login.setBounds(130,90,400,300);
+		login.setBounds(350,150,350,400);
 		login.setLayout(null);
 		login.setBackground(new Color(0x123456));
 		
-		labelTitulo = new JLabel("Administrador");
+		labelTitulo = new JLabel("Administração");
 		labelTitulo.setBounds(90, 20, 300, 30);
 		labelTitulo.setFont(new Font("mv boli", Font.BOLD, 30));
 		labelTitulo.setForeground(Color.white);
 		
 		labelNome = new JLabel("Nome");
-		labelNome.setBounds(100, 80, 50, 25);
+		labelNome.setBounds(45, 140, 50, 30);
 		labelNome.setForeground(Color.white);
 		
 		fieldNome = new JTextField();
-		fieldNome.setBounds(140, 80, 130, 25);
+		fieldNome.setBounds(100, 140, 200, 30);
 		
 		labelSenha = new JLabel("Senha");
-		labelSenha.setBounds(100, 140, 50, 25);
+		labelSenha.setBounds(45, 210, 200, 30);
 		labelSenha.setForeground(Color.white);
 		
 		fieldSenha = new JPasswordField();
-		fieldSenha.setBounds(140,140,130,25);
+		fieldSenha.setBounds(100,210,200,30);
 		
 		
 		buttonLogin = new JButton("login");
 		buttonLogin.setFont(new Font("mv boli", Font.ITALIC, 15));
-		buttonLogin.setBounds(160, 200, 90, 30);
+		buttonLogin.setBounds(210, 320, 90, 30);
 		buttonLogin.setFocusable(false);
 		buttonLogin.addActionListener(this);
 		
@@ -61,12 +65,8 @@ public class Admin extends JFrame implements ActionListener{
 			
 		// frame settings
 		
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setTitle("Administrador");
+		
 		this.setLayout(null);
-		this.setSize(700,500);
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
 		add(login);
 		
 	}
@@ -97,7 +97,7 @@ public class Admin extends JFrame implements ActionListener{
 				ResultSet result = statement.executeQuery();
 				
 				if (result.next()) {
-					dispose();
+					//dispose();
 					new CadastroBibliotecario();
 				
 				} else {
@@ -116,6 +116,14 @@ public class Admin extends JFrame implements ActionListener{
 		}
 		}
 		
+	@Override
+	public void windowClosing(WindowEvent e) {}
+	public void windowActivated(WindowEvent e){}
+	public void windowOpened(WindowEvent e){}
+	public void windowClosed(WindowEvent e){}
+	public void windowDeactivated(WindowEvent e){}
+	public void windowIconified(WindowEvent e){}
+	public void windowDeiconified(WindowEvent e){}
 }
 
 

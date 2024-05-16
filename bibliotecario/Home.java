@@ -3,6 +3,7 @@ import visitante.RegistoVisitante;
 import visitante.Visitante;
 import administrador.Admin;
 
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -19,8 +20,10 @@ public class Home extends JFrame implements ActionListener, MouseListener{
     JLabel bem_vindo, frase_motivacional, logo;
     JButton botao_entrar, login, sobre;
     JButton livroButton,artigoButton,monografiaButton,gitHubButton;
+
     
     public Home(){
+       
         // menu
         menu = new JMenuBar();
         home = new JMenu("Menu");
@@ -88,6 +91,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         sobre.setFocusable(false);
         sobre.setBorder(null);
         sobre.setForeground(Color.WHITE);
+        sobre.addActionListener(this);
         sobre.addMouseListener(this);
         buttonPanel.add(sobre);
 
@@ -154,7 +158,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
 		
 
         // frame settings
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(null);
         this.setSize(1100, 680);
         this.setJMenuBar(menu);
@@ -171,9 +175,26 @@ public class Home extends JFrame implements ActionListener, MouseListener{
     @Override
     public void actionPerformed (ActionEvent e){
         // NOVO
+      
+
             if(e.getSource() == login){
-               this.setVisible(false);
-                new Admin();
+                this.setTitle("Autenticação");
+                Admin admin = new Admin();
+                admin.setBounds(0,0,1100,600);
+                getContentPane().removeAll();
+                getContentPane().add(admin);
+                repaint();
+                revalidate();
+
+            }else if(e.getSource() == sobre){
+                Sobre sobrePanel = new Sobre();
+                sobrePanel.setBounds(0, 0, 400, 400);
+              
+                System.out.println("Entrei");
+                getContentPane().removeAll();
+                getContentPane().add(sobrePanel);
+                repaint();
+                revalidate();
             }
 
 
@@ -245,7 +266,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
             artigoButton.setForeground(new Color(252, 213, 18));
         }else if(e.getSource() == livroButton){
             livroButton.setForeground(new Color(252, 213, 18));
-        }else{
+        }else if(e.getSource() == gitHubButton){
             gitHubButton.setForeground(new Color(252, 213, 18));
           
         }

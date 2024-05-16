@@ -15,13 +15,7 @@ public class Bibliotecario extends JFrame implements ActionListener {
     Connection connection;
     
     public Bibliotecario() {
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+       
 
         login = new JPanel();
         login.setBounds(130,90,400,300);
@@ -76,6 +70,13 @@ public class Bibliotecario extends JFrame implements ActionListener {
         if (e.getSource() == buttonLogin) {
             String nome = fieldNome.getText();
             String email = String.valueOf(fieldSenha.getPassword());
+            try {
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
+            } catch (SQLException sqlex) {
+                sqlex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
             
             try {
                 Statement statement = connection.createStatement();
