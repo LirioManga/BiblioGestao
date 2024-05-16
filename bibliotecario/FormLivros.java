@@ -67,7 +67,7 @@ public class FormLivros extends JFrame implements ActionListener{
 	
 		
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLayout(null);
 		this.setSize(350,300);
 		this.setVisible(true);

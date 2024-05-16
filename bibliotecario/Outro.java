@@ -73,7 +73,7 @@ public class Outro extends JFrame implements ActionListener{
         login.add(buttonLogin);
         
         // frame settings
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Outro");
         this.setLayout(null);
         this.setSize(700,500);

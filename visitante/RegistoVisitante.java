@@ -16,7 +16,7 @@ public class RegistoVisitante extends JFrame implements ActionListener{
 
     public RegistoVisitante() {
         setTitle("Registo Visitantes"); 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         labelNome = new JLabel("Nome:");
         labelNome.setBounds(50, 50, 80, 30);

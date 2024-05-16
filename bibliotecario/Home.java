@@ -17,6 +17,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
 
     JLabel bem_vindo, frase_motivacional, logo;
     JButton botao_entrar, login, sobre;
+    JButton livroButton,artigoButton,monografiaButton,gitHubButton;
     
     public Home(){
         // menu
@@ -36,7 +37,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
 
         // panel
         panel = new JPanel(null);
-        panel.setBounds(0,0,900,80);
+        panel.setBounds(0,0,1085,80);
         panel.setBackground(new Color(11, 77, 156));
 
         logoUP = new ImageIcon("D:\\LICENCIATURA EM INFORMATICA\\3ANO\\1st\\JAVA\\projecto\\javaIconsProj\\up.png");
@@ -49,12 +50,12 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         // elementos no frame
         bem_vindo = new JLabel();
         bem_vindo.setText("Biblioteca UP");
-        bem_vindo.setBounds(300, 180, 350, 150);
+        bem_vindo.setBounds(400, 180, 350, 150);
         bem_vindo.setFont(new Font("Consola", Font.PLAIN, 50));
 
         frase_motivacional = new JLabel();
         frase_motivacional.setText("CPED");
-        frase_motivacional.setBounds(400,250, 500, 150);
+        frase_motivacional.setBounds(500,250, 500, 150);
         frase_motivacional.setFont(new Font("Consola", Font.ITALIC, 30));
 
         botao_entrar = new JButton("Entrar");
@@ -67,11 +68,11 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null); 
         buttonPanel.setBackground(new Color(11, 77, 156));
-        buttonPanel.setBounds(650, 4, 250, 80);
+        buttonPanel.setBounds(800, 4, 300, 80);
         panel.add(buttonPanel);
 
         login = new JButton("Login");
-        login.setBounds(10, 15, 80, 30);
+        login.setBounds(30, 15, 80, 30);
         login.setContentAreaFilled(false);
         login.setFocusable(false);
         login.setBorder(null);
@@ -81,13 +82,59 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         buttonPanel.add(login);
 
         sobre = new JButton("Sobre");
-        sobre.setBounds(120, 15, 80, 30); 
+        sobre.setBounds(150, 15, 80, 30); 
         sobre.setContentAreaFilled(false);
         sobre.setFocusable(false);
         sobre.setBorder(null);
         sobre.setForeground(Color.WHITE);
         sobre.addMouseListener(this);
         buttonPanel.add(sobre);
+
+
+        livroButton= new JButton("Livros");
+        livroButton.setBounds(180, 500, 100, 30); 
+        livroButton.setContentAreaFilled(false);
+        livroButton.setFocusable(false);
+        livroButton.setBorder(null);
+        livroButton.setForeground(new Color(11,77,156));
+        livroButton.setFont(new Font("Serif",Font.BOLD,15));
+        livroButton.addActionListener(this);
+        livroButton.addMouseListener(this);
+        add(livroButton);
+        
+        artigoButton= new JButton("Artigos");
+        artigoButton.setBounds(400, 500, 100, 30); 
+        artigoButton.setContentAreaFilled(false);
+        artigoButton.setFocusable(false);
+        artigoButton.setBorder(null);
+        artigoButton.setForeground(new Color(11,77,156));
+        artigoButton.setFont(new Font("Serif",Font.BOLD,15));
+        artigoButton.addActionListener(this);
+        artigoButton.addMouseListener(this);
+        add(artigoButton);
+        
+        monografiaButton = new JButton("Monografias");
+        monografiaButton.setBounds(600, 500, 100, 30); 
+        monografiaButton.setContentAreaFilled(false);
+        monografiaButton.setFocusable(false);
+        monografiaButton.setBorder(null);
+        monografiaButton.setForeground(new Color(11,77,156));
+        monografiaButton.setFont(new Font("Serif",Font.BOLD,15));
+        monografiaButton.addActionListener(this);
+        monografiaButton.addMouseListener(this);
+        add(monografiaButton);
+        
+        gitHubButton = new JButton("GitHub");
+        gitHubButton.setBounds(800, 500, 100, 30); 
+        gitHubButton.setContentAreaFilled(false);
+        gitHubButton.setFocusable(false);
+        gitHubButton.setBorder(null);
+        gitHubButton.setForeground(new Color(11,77,156));
+        gitHubButton.setFont(new Font("Serif",Font.BOLD,15));
+        gitHubButton.addActionListener(this);
+        gitHubButton.addMouseListener(this);
+        add(gitHubButton);
+        
 
         panel.add(buttonPanel);
 
@@ -98,17 +145,17 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         home.add(bibliotecarioItem);
         home.add(exitItem);
         home.add(outroItem);
-        menu.add(home);
+       // menu.add(home);
         this.add(panel);
         this.add(bem_vindo);
         this.add(frase_motivacional);
-        this.add(botao_entrar);
+        //this.add(botao_entrar);
 		
 
         // frame settings
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(null);
-        this.setSize(900, 600);
+        this.setSize(1100, 680);
         this.setJMenuBar(menu);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -142,7 +189,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
             dispose();
         }
         else if(e.getSource() == botao_entrar){
-            dispose();
+           
 			new RegistoVisitante();
 		}else if(e.getSource() == outroItem){
         
@@ -154,24 +201,43 @@ public class Home extends JFrame implements ActionListener, MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-      if(e.getSource() == login){
-        login.setForeground(Color.ORANGE);
-      }else {
-        sobre.setForeground(Color.ORANGE);
-      }
+        if(e.getSource() == login){
+            login.setForeground(Color.YELLOW);
+        }else if(e.getSource() == sobre){
+            sobre.setForeground(Color.YELLOW);
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         if(e.getSource() == login){
             login.setForeground(Color.WHITE);
-          }else{
+          }else if(e.getSource() == sobre){
             sobre.setForeground(Color.WHITE);
+          }else if(e.getSource() == artigoButton){
+            artigoButton.setForeground(new Color(11,77,156));
+          }else if(e.getSource() == livroButton){
+            livroButton.setForeground(new Color(11,77,156));
+          }else if(e.getSource() == monografiaButton){
+            monografiaButton.setForeground(new Color(11,77,156));
+          }else{
+            gitHubButton.setForeground(new Color(11,77,156));
           }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        
+        if(e.getSource() == monografiaButton){
+            monografiaButton.setForeground(new Color(252, 213, 18));
+        }else if(e.getSource() == artigoButton){
+            artigoButton.setForeground(new Color(252, 213, 18));
+        }else if(e.getSource() == livroButton){
+            livroButton.setForeground(new Color(252, 213, 18));
+        }else{
+            gitHubButton.setForeground(new Color(252, 213, 18));
+          
+        }
     }
 
     @Override
