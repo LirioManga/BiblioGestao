@@ -1,8 +1,9 @@
-import bibliotecario.Home;
+//import bibliotecario1.Home;
+import home.Home;
 
-public class BiblioGestao {
+public class Main {
     public static void main(String[] args){
-        Home home = new Home();
+      Home home =new Home();
     }
 }
 

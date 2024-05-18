@@ -1,6 +1,6 @@
-package bibliotecario;
+package bibliotecario1;
 
-import artigos.Artigos;
+//import artigos.Artigos;
 import livros.Livros;
 
 import javax.swing.*;
@@ -46,7 +46,7 @@ public class HomeBiblioteca extends JFrame implements ActionListener{
 			new Livros();
 		}else if(e.getSource() == artigos){
 			dispose();
-			new Artigos();
+			//new Artigos();
 			System.out.println("botao pessionado");
 		}else{
 			dispose();

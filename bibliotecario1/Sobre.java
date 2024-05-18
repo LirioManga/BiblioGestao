@@ -1,4 +1,4 @@
-package bibliotecario;
+package bibliotecario1;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,24 +1,27 @@
 package visitante;
 
-import bibliotecario.Home;
-
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.border.*;
+
+import bibliotecario1.Home;
+
 import java.sql.*;
 
-public class Visitante extends JFrame implements ActionListener{
+public class Visitante extends JPanel implements ActionListener{
 
     private DefaultListModel<String> listModel;
     private JList<String> list;
     JButton voltarButton, pesquisarButton;
     JTextField searchBar;
-
-    public Visitante() {
-        setTitle("Livros");
-        setSize(700, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    JFrame homeInstance;
+    public Visitante(Home homeInstance) {
+        //setTitle("Livros");
+        //setSize(700, 500);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.homeInstance = homeInstance;
         setLayout(null);
+      
 
         // Modelo e JList
         listModel = new DefaultListModel<>();
@@ -46,15 +49,19 @@ public class Visitante extends JFrame implements ActionListener{
 
         add(pesquisarButton);
         add(voltarButton);
-        this.setLocationRelativeTo(null);
-        setVisible(true);
+        //this.setLocationRelativeTo(null);
+        //setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == voltarButton){
-            dispose();
-            new Home();
+           // dispose();
+           homeInstance.getContentPane().removeAll();
+           homeInstance.setContentPane(new Home()); // To reset back to Home screen
+           homeInstance.repaint();
+           homeInstance.revalidate();
+          
         }else if(e.getSource() == pesquisarButton){
             String pesquisarLivro = searchBar.getText();
             preencherLista(pesquisarLivro);

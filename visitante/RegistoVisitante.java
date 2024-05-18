@@ -2,7 +2,8 @@ package visitante;
 
 import javax.swing.*;
 
-import bibliotecario.Home;
+import bibliotecario1.Home;
+import visitante.*;
 
 import java.awt.event.*;
 import java.util.Date;
@@ -13,8 +14,10 @@ public class RegistoVisitante extends JFrame implements ActionListener{
     JTextField campoNome, campoContacto;
     JComboBox<String> comboBox;
     JButton submeter;
+    private Home homeInstance;
 
-    public RegistoVisitante() {
+    public RegistoVisitante(Home homeInstance) {
+        this.homeInstance = homeInstance;
         setTitle("Registo Visitantes"); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -72,13 +75,14 @@ public class RegistoVisitante extends JFrame implements ActionListener{
                 Date data = new Date();
                 Timestamp timestamp = new Timestamp(data.getTime());
                 dadosVisitantes(nome,instituicao,contacto, timestamp);
-                new Visitante();
+                homeInstance.showVisitantePanel();
+                //new Visitante();
             }
             
         }
 
     }
-
+    
     public void dadosVisitantes(String nome, String instituicao,String contacto, Timestamp data){
 
         String url = "jdbc:mysql://localhost:3306/biblioteca";

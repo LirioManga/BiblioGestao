@@ -1,7 +1,7 @@
-package bibliotecario;
+package bibliotecario1;
 import visitante.RegistoVisitante;
 import visitante.Visitante;
-import administrador.Admin;
+//import administrador.Admin;
 
 
 import java.awt.*;
@@ -20,9 +20,12 @@ public class Home extends JFrame implements ActionListener, MouseListener{
     JLabel bem_vindo, frase_motivacional, logo;
     JButton botao_entrar, login, sobre;
     JButton livroButton,artigoButton,monografiaButton,gitHubButton;
+    JPanel panelHome;
 
     
     public Home(){
+        //panelHome = new JPanel();
+        //panelHome.setBounds(0,0,1100,680);
        
         // menu
         menu = new JMenuBar();
@@ -56,11 +59,13 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         bem_vindo.setText("Biblioteca UP");
         bem_vindo.setBounds(400, 180, 350, 150);
         bem_vindo.setFont(new Font("Consola", Font.PLAIN, 50));
+      
 
         frase_motivacional = new JLabel();
         frase_motivacional.setText("CPED");
         frase_motivacional.setBounds(500,250, 500, 150);
         frase_motivacional.setFont(new Font("Consola", Font.ITALIC, 30));
+       
 
         botao_entrar = new JButton("Entrar");
         botao_entrar.setFocusable(false);
@@ -117,6 +122,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         artigoButton.addActionListener(this);
         artigoButton.addMouseListener(this);
         add(artigoButton);
+  
         
         monografiaButton = new JButton("Monografias");
         monografiaButton.setBounds(600, 500, 100, 30); 
@@ -142,6 +148,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         
 
         panel.add(buttonPanel);
+     
 
 
 
@@ -151,14 +158,14 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         home.add(exitItem);
         home.add(outroItem);
        // menu.add(home);
-        this.add(panel);
-        this.add(bem_vindo);
-        this.add(frase_motivacional);
+        add(panel);
+        add(bem_vindo);
+        add(frase_motivacional);
         //this.add(botao_entrar);
 		
-
+        
         // frame settings
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(null);
         this.setSize(1100, 680);
         this.setJMenuBar(menu);
@@ -175,14 +182,12 @@ public class Home extends JFrame implements ActionListener, MouseListener{
     @Override
     public void actionPerformed (ActionEvent e){
         // NOVO
-      
-
             if(e.getSource() == login){
                 this.setTitle("Autenticação");
-                Admin admin = new Admin();
-                admin.setBounds(0,0,1100,600);
+                //Admin admin = new Admin();
+                //admin.setBounds(0,0,1100,600);
                 getContentPane().removeAll();
-                getContentPane().add(admin);
+                //getContentPane().add(admin);
                 repaint();
                 revalidate();
 
@@ -195,6 +200,9 @@ public class Home extends JFrame implements ActionListener, MouseListener{
                 getContentPane().add(sobrePanel);
                 repaint();
                 revalidate();
+            }else if(e.getSource() == livroButton || e.getSource() == artigoButton || e.getSource() == monografiaButton){
+
+                new RegistoVisitante(this);
             }
 
 
@@ -202,7 +210,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         // ANTIGO 
         if(e.getSource() == adminItem){
             dispose();
-            new Admin();
+           // new Admin();
             System.out.print("entrando como administrador");
         }else if(e.getSource() == bibliotecarioItem){
 			dispose();
@@ -212,7 +220,7 @@ public class Home extends JFrame implements ActionListener, MouseListener{
         }
         else if(e.getSource() == botao_entrar){
            
-			new RegistoVisitante();
+			//new RegistoVisitante();
 		}else if(e.getSource() == outroItem){
         
             System.out.println("OUTRO ADICIONADO");
@@ -273,10 +281,18 @@ public class Home extends JFrame implements ActionListener, MouseListener{
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {}
+
+    public void showVisitantePanel() {
+        Visitante visitantePanel = new Visitante(this);
+        visitantePanel.setBounds(0, 0, 1100, 680);
+        getContentPane().removeAll();
+        getContentPane().add(visitantePanel);
+        repaint();
+        revalidate();
     }
+
 }

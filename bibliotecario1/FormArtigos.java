@@ -1,30 +1,35 @@
-package bibliotecario;
-
-import javax.swing.*;
-import livros.Livros;
+package bibliotecario1;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.sql.*;
 import java.awt.event.*;
 
-public class FormLivros extends JFrame implements ActionListener{
-	public String autor = "";
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+//import artigos.Artigos;
+
+public class FormArtigos extends JFrame implements ActionListener{
+    public String autor = "";
 	public String titulo = "";
 	public String editora = "";
 	public String categoria = "";
 	
+	// setters & getters
 	
 	// FormLivros
 	JLabel labAutor, labTitulo, labEditora, labCategoria;
 	JTextField textAutor, textTitulo, textEditora, textCategoria;
 	JButton adicionar;
 	
-	public FormLivros(){
+	public FormArtigos(){
 		labAutor = new JLabel("Autor");
 		labAutor.setBounds(30, 20, 50, 25);
 		
@@ -71,8 +76,6 @@ public class FormLivros extends JFrame implements ActionListener{
 		this.setLayout(null);
 		this.setSize(350,300);
 		this.setVisible(true);
-		
-		
 	}
 	
 	@Override
@@ -84,19 +87,10 @@ public class FormLivros extends JFrame implements ActionListener{
 			categoria = textCategoria.getText();
 			
 			if(!autor.isEmpty()){
-				Object[] novoLivro = {autor, titulo,editora,categoria};
-				Livros.modelo.addRow(novoLivro);
+				Object[] novoArtigo = {autor, titulo,editora,categoria};
+				//Artigos.modelo.addRow(novoArtigo);
 				
-				adicionarLivros();
-			
-				this.setVisible(false);
-			}
-		}
-	}
-	
-	
-	public void adicionarLivros(){
-		String url = "jdbc:mysql://localhost:3306/biblioteca";
+				String url = "jdbc:mysql://localhost:3306/biblioteca";
 				String usuario = "root";
 				String senha = "";
 				
@@ -104,7 +98,7 @@ public class FormLivros extends JFrame implements ActionListener{
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					 Connection conexao = DriverManager.getConnection(url, usuario, senha);
 					
-					String sql = "INSERT INTO livros (autor,titulo,editora,categoria) VALUES (?,?,?, ?)";
+					String sql = "INSERT INTO artigos (autor,titulo,editora,categoria) VALUES (?,?,?, ?)";
 					
 					try (PreparedStatement preparedStatement = conexao.prepareStatement(sql)) {
                 
@@ -135,7 +129,10 @@ public class FormLivros extends JFrame implements ActionListener{
 				textCategoria.setText("");
 				textEditora.setText("");
 				textTitulo.setText("");
+			}
 			
-		
+			this.setVisible(false);
+			
+		}
 	}
 }

@@ -1,35 +1,28 @@
-package bibliotecario;
+package bibliotecario1;
+
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.sql.*;
-import java.net.*;
 
-
-public class Outro extends JFrame implements ActionListener{
+public class Bibliotecario extends JFrame implements ActionListener {
     
     JPanel login;
-    JLabel labelTitulo, labelNome, labelSenha, ipLabel;
-    JTextField fieldNome, ipTextField;
+    JLabel labelTitulo, labelNome, labelSenha;
+    JTextField fieldNome;
     JPasswordField fieldSenha;
     JButton buttonLogin;
     Connection connection;
     
-    public Outro() {
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+    public Bibliotecario() {
+       
 
         login = new JPanel();
         login.setBounds(130,90,400,300);
         login.setLayout(null);
         login.setBackground(new Color(0x123456));
         
-        labelTitulo = new JLabel("Outro");
+        labelTitulo = new JLabel("Bibliotecario");
         labelTitulo.setBounds(90, 20, 300, 30);
         labelTitulo.setFont(new Font("mv boli", Font.BOLD, 30));
         labelTitulo.setForeground(Color.white);
@@ -44,13 +37,6 @@ public class Outro extends JFrame implements ActionListener{
         labelSenha = new JLabel("Senha");
         labelSenha.setBounds(100, 140, 50, 25);
         labelSenha.setForeground(Color.white);
-
-        ipLabel = new JLabel("IP address: ");
-        ipLabel.setBounds(70, 180,70,25);
-        ipLabel.setForeground(Color.white);
-
-        ipTextField = new JTextField();
-        ipTextField.setBounds(140,180,130,25);
         
         fieldSenha = new JPasswordField();
         fieldSenha.setBounds(140,140,130,25);
@@ -58,7 +44,7 @@ public class Outro extends JFrame implements ActionListener{
         
         buttonLogin = new JButton("login");
         buttonLogin.setFont(new Font("mv boli", Font.ITALIC, 15));
-        buttonLogin.setBounds(160, 240, 90, 30);
+        buttonLogin.setBounds(160, 200, 90, 30);
         buttonLogin.setFocusable(false);
         buttonLogin.addActionListener(this);
         
@@ -68,41 +54,29 @@ public class Outro extends JFrame implements ActionListener{
         login.add(fieldNome);
         login.add(labelSenha);
         login.add(fieldSenha);
-        login.add(ipLabel);
-        login.add(ipTextField);
         login.add(buttonLogin);
         
         // frame settings
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setTitle("Outro");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Bibliotecario");
         this.setLayout(null);
         this.setSize(700,500);
-        this.setLocationRelativeTo(null);
         this.setVisible(true);
         add(login);
     }
-    public void actionPerformed(ActionEvent e){
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonLogin) {
-            String ipIntroduzido = ipTextField.getText();
-
-            try {
-
-                InetAddress localhost = InetAddress.getLocalHost();
-                String ip = localhost.getHostAddress();
-
-                System.out.println(ip);
-                if (!ip.equals(ipIntroduzido)) {
-                    JOptionPane.showMessageDialog(null, "Acesso permitido apenas a partir do IP 192.168.111.1", "Erro de acesso", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erro ao obter o endereço IP", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
             String nome = fieldNome.getText();
             String email = String.valueOf(fieldSenha.getPassword());
+            try {
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "");
+            } catch (SQLException sqlex) {
+                sqlex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
             
             try {
                 Statement statement = connection.createStatement();
@@ -125,5 +99,5 @@ public class Outro extends JFrame implements ActionListener{
             }
         }
     }
+    
 }
-
