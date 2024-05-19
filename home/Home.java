@@ -59,6 +59,7 @@ public class Home extends JFrame implements ActionListener{
 
         nomeField = new JTextField(20);
         nomeField.setBounds(100, 50, 165, 25);
+        nomeField.setFont(new Font("Consolas", Font.PLAIN, 12));
         setPlaceholder(nomeField, "Insira o seu nome");
         visitante.add(nomeField);
         
@@ -68,6 +69,7 @@ public class Home extends JFrame implements ActionListener{
 
         contactoField = new JTextField(20);
         contactoField.setBounds(100, 90, 165, 25);
+        contactoField.setFont(new Font("Consolas", Font.PLAIN, 12));
         setPlaceholder(contactoField, "(+258) 87635363532");
         visitante.add(contactoField);
 
@@ -188,12 +190,15 @@ public class Home extends JFrame implements ActionListener{
                System.out.println("dados enviados com sucesso");
                nomeField.setText("");
                contactoField.setText("");
+
+               dispose();
+               new Frame();
             }
         }
     }
 
     private void setPlaceholder(JTextField textField, String placeholder) {
-        textField.setFont(new Font("mv boli", Font.ITALIC, 10));
+        textField.setFont(new Font("Consolas", Font.PLAIN, 12));
         textField.setText(placeholder);
         textField.setForeground(Color.GRAY);
 
@@ -247,7 +252,4 @@ public class Home extends JFrame implements ActionListener{
 
     }
 
-    public static void main(String[] args) {
-        new Home();
-    }
 }

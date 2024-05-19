@@ -1,7 +1,8 @@
 package bibliotecario1;
 
 import javax.swing.*;
-import livros.Livros;
+
+import biblioteca.Livros;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
