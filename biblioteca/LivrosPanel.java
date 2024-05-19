@@ -13,7 +13,7 @@ public class LivrosPanel extends JPanel {
     JTextArea messageArea;
 
     public LivrosPanel() {
-       // setLayout(new BorderLayout());
+       setLayout(new BorderLayout());
         setBackground(Color.RED);
         
         // painel de pesquisa
