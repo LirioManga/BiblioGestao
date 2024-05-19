@@ -98,6 +98,7 @@ public class Frame extends JFrame implements ActionListener{
         monografiaButton.addActionListener(this);
         gitHButton.addActionListener(this);
         exitButton.addActionListener(this);
+        
         // configuracoes do frame
         
         setLayout(new BorderLayout());
@@ -124,8 +125,4 @@ public class Frame extends JFrame implements ActionListener{
                 System.exit(0);
             }
         }
-
-    public static void main(String[] args) {
-        new Frame();
-    }
 }

@@ -1,5 +1,7 @@
 package home;
 
+import admin.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -110,7 +112,7 @@ public class Home extends JFrame implements ActionListener{
 
         passwordField= new JTextField(20);
         passwordField.setBounds(100, 140, 165, 25);
-        setPlaceholder(passwordField, "(+258) 87635363532");
+        setPlaceholder(passwordField, "********");
         login.add(passwordField);
 
 
@@ -170,8 +172,21 @@ public class Home extends JFrame implements ActionListener{
             if(userField.getText().isEmpty() || passwordField.getText().isEmpty() ||
                 userField.getText().equals("Insira o seu nome") || passwordField.getText().equals("********")){
                 JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
-            }else if(isFirstClick){
-                System.out.println("nao faz");
+
+            }else {
+                String nome = userField.getText();
+                String senha = passwordField.getText();
+
+                if (nome.equals("admin") && senha.equals("a")) {
+                    dispose();
+                    
+                    
+                    Admin admin = new Admin(new Frame());
+                    repaint();
+                    revalidate();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nome de usuário ou senha incorretos.");
+                }
             }
         } else if (e.getSource() == getInButton) {
 
@@ -196,6 +211,8 @@ public class Home extends JFrame implements ActionListener{
             }
         }
     }
+
+    
 
     private void setPlaceholder(JTextField textField, String placeholder) {
         textField.setFont(new Font("Consolas", Font.PLAIN, 12));

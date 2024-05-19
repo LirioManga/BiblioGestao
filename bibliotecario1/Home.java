@@ -1,12 +1,10 @@
 package bibliotecario1;
-import visitante.RegistoVisitante;
-import visitante.Visitante;
-//import administrador.Admin;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import visit.RegistoVisitante;
+import visit.Visitante;
 
 import java.net.URI;
 
