@@ -69,7 +69,7 @@ public class Admin extends JPanel implements ActionListener{
         panelContent = new JPanel(cardLayout);
         panelContent.setBackground(Color.BLUE);
 
-        Bibliotecario bibliotecario = new Bibliotecario();
+        Bibliotecarios bibliotecario = new Bibliotecarios();
         panelContent.add(bibliotecario, "bibliotecario");
 
 

@@ -6,16 +6,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Bibliotecario extends JPanel implements ActionListener{
-    JPanel navegationPanel, contentPanel,messagePanel,searchPanel,deletePanel;
+public class Bibliotecarios extends JPanel implements ActionListener{
+    JPanel navegationPanel, contentPanel,messagePanel,searchPanel,deletePanel, mainActivosPanel, tableActivosPanel;
     JButton cadastroButton,bibliotecarioButton,actividadeButton;
     JTextField searchField;
     JButton submeterButton,deleteButton;
     CardLayout cardLayout;
     JButton pesquisarButtonIcon;
     ImageIcon pesquisarIcon;
+    JPanel cadastroPanel, dadosPanel,formacaoPanel,dadosPessoaisPanel;
     
-    public Bibliotecario() {
+    public Bibliotecarios() {
         setLayout(new BorderLayout());
         setBackground(Color.YELLOW);
         add(new JLabel("bibliotecario"));
@@ -50,20 +51,20 @@ public class Bibliotecario extends JPanel implements ActionListener{
         contentPanel = new JPanel(cardLayout);
 
         // painéis individuais para cada botão
-        JPanel cadastroPanel = new JPanel();
+        cadastroPanel = new JPanel();
         cadastroPanel.setBackground(Color.CYAN);
         // dados bibliotecario
-        JPanel dadosPanel = new JPanel();
+        dadosPanel = new JPanel();
         dadosPanel.setBackground(Color.LIGHT_GRAY);
         dadosPanel.setPreferredSize(new Dimension(935, 400));
         dadosPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 15));
         cadastroPanel.add(dadosPanel);
 
-        JPanel dadosPessoaisPanel = new JPanel();
+        dadosPessoaisPanel = new JPanel();
         dadosPessoaisPanel.setPreferredSize(new Dimension(450, 380));
         dadosPessoaisPanel.setBackground(Color.PINK);
 
-        JPanel formacaoPanel = new JPanel();
+        formacaoPanel = new JPanel();
         formacaoPanel.setPreferredSize(new Dimension(450, 380));
         formacaoPanel.setBackground(Color.GREEN);
 
@@ -106,13 +107,13 @@ public class Bibliotecario extends JPanel implements ActionListener{
         searchPanel.add(pesquisarButtonIcon);
 
        
-        JPanel mainActivosPanel = new JPanel();
+        mainActivosPanel = new JPanel();
         mainActivosPanel.setBackground(Color.LIGHT_GRAY);
         mainActivosPanel.setPreferredSize(new Dimension(935, 400));
         mainActivosPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         activosPanel.add(mainActivosPanel);
 
-        JPanel tableActivosPanel = new JPanel();
+        tableActivosPanel = new JPanel();
         tableActivosPanel.setPreferredSize(new Dimension(650, 370));
         tableActivosPanel.setBackground(Color.green);
 
@@ -155,13 +156,8 @@ public class Bibliotecario extends JPanel implements ActionListener{
          JPanel resultInfoPanel = new JPanel();
          resultInfoPanel.setPreferredSize(new Dimension(250,500));
          resultInfoPanel.setBackground(Color.CYAN);   
-               
-         //resultPanel.add(resultInfoPanel);
-         add(navegationPanel,BorderLayout.NORTH);
-        
-         //mainPanel.add(resultPanel, BorderLayout.CENTER);
-         //add(mainPanel,)
-  
+
+         add(navegationPanel,BorderLayout.NORTH); 
     }
 
     @Override
@@ -179,6 +175,16 @@ public class Bibliotecario extends JPanel implements ActionListener{
 
         return srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         
+    }
+
+    public void updatePanel(){
+       //mainActivosPanel.remove(tableActivosPanel);
+        dadosPanel.remove(formacaoPanel);
+        dadosPessoaisPanel.setPreferredSize(new Dimension(600,380));
+        cadastroButton.setText("Adicionar");
+        bibliotecarioButton.setText("Disponiveis");
+        revalidate();
+        repaint();
     }
 }
 

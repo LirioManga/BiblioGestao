@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LivrosPanel extends JPanel {
 
-    JPanel searchPanel, resultPanel,messagePanel;
+    JPanel searchPanel, resultPanel,messagePanel, mainPanel,resultInfoPanel;
     JTextField searchField;
     JButton searchButton,sendButton;
     JButton pesquisarButtonIcon;
@@ -33,7 +33,7 @@ public class LivrosPanel extends JPanel {
 
 
         // painel de resultados
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setPreferredSize(new Dimension(935,470));
         mainPanel.setLayout(new BorderLayout());
 
@@ -47,7 +47,7 @@ public class LivrosPanel extends JPanel {
         resultTextPanel.setBackground(Color.ORANGE);
         resultPanel.add(resultTextPanel);
         
-        JPanel resultInfoPanel = new JPanel();
+        resultInfoPanel = new JPanel();
         resultInfoPanel.setPreferredSize(new Dimension(250,340));
         resultInfoPanel.setBackground(Color.CYAN);   
               
@@ -86,4 +86,27 @@ public class LivrosPanel extends JPanel {
         return srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         
     }
+
+
+
+    // public void removeResultTextPanel() {
+    //     resultPanel.remove(resultTextPanel);
+    //     revalidate();
+    //     repaint();
+    // }
+
+    // public void removeResultInfoPanel() {
+    //     resultPanel.remove(resultInfoPanel);
+    //     revalidate();
+    //     repaint();
+    // }
+
+    public void removeMessagePanel() {
+        mainPanel.remove(messagePanel);
+        resultPanel.remove(resultInfoPanel);
+        revalidate();
+        repaint();
+    }
+
+
 }

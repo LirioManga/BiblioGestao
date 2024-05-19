@@ -1,6 +1,7 @@
 package home;
 
 import admin.*;
+import bibliotecario.Bibliotecario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -171,7 +172,7 @@ public class Home extends JFrame implements ActionListener{
 
             if(userField.getText().isEmpty() || passwordField.getText().isEmpty() ||
                 userField.getText().equals("Insira o seu nome") || passwordField.getText().equals("********")){
-                JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
+                //JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
 
             }else {
                 String nome = userField.getText();
@@ -184,7 +185,12 @@ public class Home extends JFrame implements ActionListener{
                     Admin admin = new Admin(new Frame());
                     repaint();
                     revalidate();
-                } else {
+                }else if(nome.equals("a") && senha.equals("a")) {
+                    System.out.println("entrei como bibliotecario");
+                    Bibliotecario bibliotecario = new Bibliotecario(new Frame());
+                    repaint();
+                    revalidate();
+                }else {
                     JOptionPane.showMessageDialog(this, "Nome de usuário ou senha incorretos.");
                 }
             }
@@ -192,7 +198,7 @@ public class Home extends JFrame implements ActionListener{
 
             cardLayout.show(loginPanel, "visitante");
             if (nomeField.getText().isEmpty() || contactoField.getText().isEmpty() || nomeField.getText().equals("Insira o seu nome")|| contactoField.equals("(+258) 87635363532")) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
+                //JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
 
             }else{
                 String nome = nomeField.getText();
