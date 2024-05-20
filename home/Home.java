@@ -178,20 +178,27 @@ public class Home extends JFrame implements ActionListener{
                 String nome = userField.getText();
                 String senha = passwordField.getText();
 
-                if (nome.equals("admin") && senha.equals("a")) {
-                    dispose();
+                String tipoUsuario = validarCredenciais(nome, senha);
+                if(tipoUsuario !=null){
+
+                    if (tipoUsuario.equals("admin")) {
+                        dispose();
+                        
+                        
+                        Admin admin = new Admin(new Frame());
+                        repaint();
+                        revalidate();
+                    }else if(tipoUsuario.equals("bibliotecario")) {
+                        System.out.println("entrei como bibliotecario");
+                        Bibliotecario bibliotecario = new Bibliotecario(new Frame());
+                        repaint();
+                        revalidate();
+
+                    }
                     
-                    
-                    Admin admin = new Admin(new Frame());
-                    repaint();
-                    revalidate();
-                }else if(nome.equals("a") && senha.equals("a")) {
-                    System.out.println("entrei como bibliotecario");
-                    Bibliotecario bibliotecario = new Bibliotecario(new Frame());
-                    repaint();
-                    revalidate();
-                }else {
+                }else{
                     JOptionPane.showMessageDialog(this, "Nome de usuário ou senha incorretos.");
+
                 }
             }
         } else if (e.getSource() == getInButton) {
@@ -275,4 +282,44 @@ public class Home extends JFrame implements ActionListener{
 
     }
 
+
+    private String validarCredenciais(String nome, String senha) {
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuarioBD = "root";
+        String senhaBD = "";
+    
+        try {
+            Connection conexao = DriverManager.getConnection(url, usuarioBD, senhaBD);
+    
+            
+            String queryAdmin = "SELECT * FROM admin WHERE username = ? AND senha = ?";
+            PreparedStatement declaracaoAdmin = conexao.prepareStatement(queryAdmin);
+            declaracaoAdmin.setString(1, nome);
+            declaracaoAdmin.setString(2, senha);
+            
+            ResultSet resultadoAdmin = declaracaoAdmin.executeQuery();
+            
+            if (resultadoAdmin.next()) {
+                return "admin"; 
+            }
+    
+            
+            String queryBiblio = "SELECT * FROM bibliotecario WHERE nome = ? AND email = ?";
+            PreparedStatement declaracaoBiblio = conexao.prepareStatement(queryBiblio);
+            declaracaoBiblio.setString(1, nome);
+            declaracaoBiblio.setString(2, senha);
+            
+            ResultSet resultadoBiblio = declaracaoBiblio.executeQuery();
+            
+            if (resultadoBiblio.next()) {
+                return "bibliotecario"; 
+            }
+    
+            conexao.close();
+        } catch (SQLException g) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar dados no banco de dados: " + g.getMessage());
+        }
+    
+        return null; 
+    }
 }

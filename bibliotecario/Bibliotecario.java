@@ -92,6 +92,7 @@ public class Bibliotecario extends JPanel implements ActionListener{
         panelContent.add(bibliotecario, "Livros");
 
         ArtigosPanel artigosPanel = new ArtigosPanel();
+        //artigosPanel.updatePanel();
         panelContent.add(artigosPanel, "Artigos");    
 
         MonografiaPanel monografiaPanel = new MonografiaPanel();
@@ -133,7 +134,7 @@ public class Bibliotecario extends JPanel implements ActionListener{
     }
 
 
-    public static void main(String[] args) {
-        new Bibliotecario(new Frame());
-    }
+    // public static void main(String[] args) {
+    //     new Bibliotecario(new Frame());
+    // }
 }

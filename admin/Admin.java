@@ -14,6 +14,9 @@ public class Admin extends JPanel implements ActionListener{
     JButton bibliotecarioButton,visitanteButton, exitButton;
     CardLayout cardLayout;
     JFrame frameDispose;
+
+    
+
     public Admin(Frame frame){
         frameDispose = frame;
         frame.getContentPane().removeAll();
@@ -70,6 +73,8 @@ public class Admin extends JPanel implements ActionListener{
         panelContent.setBackground(Color.BLUE);
 
         Bibliotecarios bibliotecario = new Bibliotecarios();
+        bibliotecario.itensDadosPessoais();
+        bibliotecario.formacaoAcademica();
         panelContent.add(bibliotecario, "bibliotecario");
 
 
@@ -95,6 +100,10 @@ public class Admin extends JPanel implements ActionListener{
             frameDispose.dispose();
             new Home();
         }
+    }
+
+    public static void main(String[] args) {
+        new Admin(new Frame());
     }
     
 }
