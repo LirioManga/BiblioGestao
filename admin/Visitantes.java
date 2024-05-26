@@ -1,68 +1,92 @@
 package admin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-public class Visitantes extends JPanel{
-    JPanel searchPanel, resultPanel,messagePanel;
+public class Visitantes extends JPanel implements ActionListener{
+    JPanel searchPanel;
     JTextField searchField;
-    JButton searchButton,sendButton;
-    JButton pesquisarButtonIcon;
+    JButton pesquisarButtonIcon, deleteButton;
+    JLabel pesquisarLabelIcon;
     ImageIcon pesquisarIcon;
-    JTextArea messageArea;
+
+
+    DefaultTableModel modelo;
+    JScrollPane scrollPane;
+    JTable tabela;
 
     public Visitantes(){
+        setBackground(Color.CYAN);
         setLayout(new BorderLayout());
-        setBackground(Color.RED);
-        add(new JLabel("visitantes"));
-        
-
-
-         // painel de pesquisa
-        
-        // painel de pesquisa
+    
+     
+                    // painel de pesquisa
         searchPanel = new JPanel();
-        searchPanel.setPreferredSize(new Dimension(935,60));
-        searchPanel.setBackground(Color.lightGray);
-        searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,20));
+        searchPanel.setPreferredSize(new Dimension(935,40));
+        //searchPanel.setBackground(Color.blue);
+        searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,7));
 
+
+
+        // Inicializando pesquisarIcon e pesquisarButtonIcon
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(500,30));
 
-    
+
         pesquisarIcon = new ImageIcon("D:\\LICENCIATURA EM INFORMATICA\\3ANO\\1st\\JAVA\\projecto\\javaIconsProj\\pesquisar.png");
-        pesquisarButtonIcon= new JButton(pesquisarIcon);
-        pesquisarButtonIcon.setPreferredSize(new Dimension(40,30));
+        pesquisarButtonIcon = new JButton(pesquisarIcon);
+        pesquisarButtonIcon.setPreferredSize(new Dimension(40, 30));
+        pesquisarButtonIcon.addActionListener(this);
         pesquisarButtonIcon.setIcon(new ImageIcon(getScaledImage(pesquisarIcon.getImage(), 40, 30)));
 
-         // painel de resultados
-         JPanel mainPanel = new JPanel();
-         mainPanel.setPreferredSize(new Dimension(935,700));
-         mainPanel.setLayout(new BorderLayout());
- 
-         resultPanel = new JPanel();
-         resultPanel.setPreferredSize(new Dimension(935,350));
-         resultPanel.setBackground(Color.DARK_GRAY);
-         resultPanel.setLayout(new FlowLayout(FlowLayout.LEADING,52,2));
-         
-         JPanel resultTextPanel = new JPanel();
-         resultTextPanel.setPreferredSize(new Dimension(530,290));
-         resultTextPanel.setBackground(Color.ORANGE);
-         resultPanel.add(resultTextPanel);
-         
-         JPanel resultInfoPanel = new JPanel();
-         resultInfoPanel.setPreferredSize(new Dimension(250,500));
-         resultInfoPanel.setBackground(Color.CYAN);   
-               
-         searchPanel.add(searchField);
-         searchPanel.add(pesquisarButtonIcon);
-         add(searchPanel,BorderLayout.NORTH);
-    }
+        searchPanel.add(searchField);
+        searchPanel.add(pesquisarButtonIcon);
 
+
+
+        modelo = new DefaultTableModel();
+
+        modelo.addColumn("Nome");
+        modelo.addColumn("Email");
+        modelo.addColumn("Contacto");
+        modelo.addColumn("Sexo");
+
+        tabela = new JTable(modelo);
+        tabela.setPreferredScrollableViewportSize(new Dimension(915, 400));
+        tabela.setFillsViewportHeight(true);
+        scrollPane = new JScrollPane(tabela);
+        scrollPane.setBounds(0,0,750,250);
+        // // Funcao para preencher a tabela antes.
+        // //buscarDadosBaseDeDados();
+        
+        
+        JPanel deletePanel = new JPanel();
+        deletePanel.setPreferredSize(new Dimension(935,60));
+        deletePanel.setLayout(new FlowLayout(FlowLayout.CENTER,5,20));
+        
+        deleteButton = new JButton("Excluir");
+        deleteButton.setPreferredSize(new Dimension(100,30));
+        deleteButton.setFocusable(false);
+        deleteButton.addActionListener(this);
+        deletePanel.add(deleteButton);
+
+
+        add(deletePanel, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(searchPanel, BorderLayout.NORTH);
+
+    }
+    
     private Image getScaledImage(Image srcImg, int width, int height) {
 
         return srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         
     }
+    @Override
+    public void actionPerformed(ActionEvent e){
+
+    }
+
 }

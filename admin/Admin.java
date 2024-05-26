@@ -1,109 +1,152 @@
 package admin;
-import home.Frame;
-import home.Home;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
-
 
 public class Admin extends JPanel implements ActionListener{
-    JPanel panelTitle,panelItens, panelContent;
-    JLabel titleLabel;
-    JButton bibliotecarioButton,visitanteButton, exitButton;
+    JPanel panelItens,panelHome,panelBibliotecarios,panelVisitantes;
+    JPanel panelContent;
+    JButton buttonHome,buttonBibliotecario, buttonVisitante,buttonExit;
+
     CardLayout cardLayout;
-    JFrame frameDispose;
-
-    
-
-    public Admin(Frame frame){
-        frameDispose = frame;
-        frame.getContentPane().removeAll();
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        panelTitle = new JPanel();
-        panelTitle.setBackground(Color.GREEN);
-        panelTitle.setPreferredSize(new Dimension(1100,100));
-        panelTitle.setLayout(new FlowLayout(FlowLayout.CENTER,100,40));
+    String nome,status;
 
 
+    public Admin(String nome,String status,JFrame frame) {
+        this.nome = nome;
+        this.status = status;
+        setLayout(new BorderLayout());
+       
+        cardLayout = new CardLayout();
+        panelContent = new JPanel(cardLayout);
+        panelContent.setBackground(Color.black);
         
-        titleLabel = new JLabel("ADMIN");
-        titleLabel.setFont(new Font("Consolas",Font.BOLD, 40));
-        panelTitle.add(titleLabel);
+        AdminHome home = new AdminHome();
+        Visitantes visitantes = new Visitantes();
+        Bibliotecarios bibliotecarios = new Bibliotecarios();
 
-        // PANEL DE Botoes
+        panelContent.add(home,"home");
+        panelContent.add(bibliotecarios, "bibliotecarios");
+        panelContent.add(visitantes,"visitantes");
+     
+    
+        add(panelInfoAdmin(),BorderLayout.NORTH);
+        add(panelMenu(),BorderLayout.WEST);
+        add(panelContent,BorderLayout.CENTER);
+        System.out.println(nome + " "+ status);
+
+      
+    }
+
+    public JPanel panelMenu(){
         panelItens = new JPanel();
-        panelItens.setBackground(Color.magenta);
+        panelItens.setBackground(new Color(13, 95, 166));
         panelItens.setPreferredSize(new Dimension(150,600));
         panelItens.setLayout(new BoxLayout(panelItens,BoxLayout.Y_AXIS));
 
+
         Dimension buttonSize = new Dimension(150, 50);
 
-        bibliotecarioButton = new JButton("Bibliotecário");
-        bibliotecarioButton.setFocusable(false);
-        bibliotecarioButton.setMaximumSize(buttonSize);
-        bibliotecarioButton.addActionListener(this);
+        buttonHome = new JButton("Home");
+        buttonHome.setFocusable(false);
+        buttonHome.addActionListener(this);
+        buttonHome.setMaximumSize(buttonSize);
 
-        visitanteButton= new JButton("Visitantes");
-        visitanteButton.setFocusable(false);
-        visitanteButton.setMaximumSize(buttonSize);
-        visitanteButton.addActionListener(this);
+        buttonBibliotecario = new JButton("Bibliotecarios");
+        buttonBibliotecario.setFocusable(false);
+        buttonBibliotecario.addActionListener(this);
+        buttonBibliotecario.setMaximumSize(buttonSize);
 
 
-        exitButton = new JButton("Sair");
-        exitButton.setFocusable(false);
-        exitButton.setMaximumSize(buttonSize);
-        exitButton.addActionListener(this);
+        buttonVisitante = new JButton("Visitantes");
+        buttonVisitante.setFocusable(false);
+        buttonVisitante.addActionListener(this);
+        buttonVisitante.setMaximumSize(buttonSize);
+
+    
+
+        buttonExit = new JButton("Sair");
+        buttonExit.setFocusable(false);
+        buttonExit.addActionListener(this);
+        buttonExit.setMaximumSize(buttonSize);
 
 
 
         panelItens.add(Box.createVerticalStrut(10));
-        panelItens.add(bibliotecarioButton);
+        panelItens.add(buttonHome);
         panelItens.add(Box.createVerticalStrut(5)); 
-        panelItens.add(visitanteButton);
+        panelItens.add(buttonBibliotecario);
         panelItens.add(Box.createVerticalStrut(5));
-        panelItens.add(exitButton);
+        panelItens.add(buttonVisitante);
+        panelItens.add(Box.createVerticalStrut(5));
+        panelItens.add(buttonExit);
+       
 
 
-          // panel dos cards
-        cardLayout = new CardLayout();
-        panelContent = new JPanel(cardLayout);
-        panelContent.setBackground(Color.BLUE);
-
-        Bibliotecarios bibliotecario = new Bibliotecarios();
-        bibliotecario.itensDadosPessoais();
-        bibliotecario.formacaoAcademica();
-        panelContent.add(bibliotecario, "bibliotecario");
-
-
-        Visitantes visitantes = new Visitantes();
-        panelContent.add(visitantes, "visitantes");
-
-        // definicoes
-        frame.add(panelTitle, BorderLayout.NORTH);
-        frame.add(panelItens,BorderLayout.WEST);
-        frame.add(panelContent,BorderLayout.CENTER);
-
-        frame.repaint();
-        frame.revalidate();
+        return panelItens;
     }
+
+
+    public JPanel panelInfoAdmin(){
+        JPanel panelInfo = new JPanel(new BorderLayout());
+        
+
+
+        Border linBorderPanelUser = BorderFactory.createLineBorder(new Color(0xBDC7E6), 2);
+
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(null);
+        userPanel.setPreferredSize(new Dimension(150, 50));
+        userPanel.setBackground(Color.WHITE);
+        userPanel.setBorder(linBorderPanelUser);
+
+        JLabel userLabel = new JLabel();
+        userLabel.setBounds(15,5,100,20);
+        userLabel.setText(nome);
+        userPanel.add(userLabel);
+
+        JLabel userStatus = new JLabel();
+        userStatus.setBounds(25,20,90,20);
+        userStatus.setText(status);
+        userPanel.add(userStatus);
+
+        JPanel panelMenuLabel = new JPanel();
+        panelMenuLabel.setPreferredSize(new Dimension(150,50));
+        panelMenuLabel.setBackground(Color.decode("#0D5FA6"));
+        panelInfo.add(panelMenuLabel,BorderLayout.WEST);
+
+        JLabel labelMenu = new JLabel();
+        labelMenu.setText("Menu");
+        labelMenu.setFont(new Font("Consola", Font.PLAIN, 20));
+        panelMenuLabel.add(labelMenu);
+        
+    
+        panelInfo.add(userPanel, BorderLayout.EAST);
+        panelInfo.setBackground(Color.WHITE);
+        panelInfo.setPreferredSize(new Dimension(1100, 40)); // Ajuste conforme necessário para o layout desejado
+    
+        
+        return panelInfo;
+    }
+
+
+
+  
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == bibliotecarioButton) {
-            cardLayout.show(panelContent, "bibliotecario");
-        } else if (e.getSource() == visitanteButton) {
+        if (e.getSource() == buttonHome) {
+            cardLayout.show(panelContent, "home");
+            System.out.println("Entrei");
+        } else if (e.getSource() == buttonBibliotecario) {
+            cardLayout.show(panelContent, "bibliotecarios");
+        } else if (e.getSource() == buttonVisitante) {
             cardLayout.show(panelContent, "visitantes");
-        } else if (e.getSource() == exitButton) {
-            frameDispose.dispose();
-            new Home();
+        } else if (e.getSource() == buttonExit) {
+            System.exit(0);
         }
     }
-
-    public static void main(String[] args) {
-        new Admin(new Frame());
-    }
-    
 }
