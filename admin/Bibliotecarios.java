@@ -7,6 +7,11 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.*;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Bibliotecarios extends JPanel implements ActionListener{
 
@@ -136,8 +141,9 @@ public class Bibliotecarios extends JPanel implements ActionListener{
         tabela.setFillsViewportHeight(true);
         scrollPane = new JScrollPane(tabela);
         scrollPane.setBounds(0,0,750,250);
-        // Funcao para preencher a tabela antes.
-        //buscarDadosBaseDeDados();
+      
+        buscarDadosBaseDeDados();
+
         tableActivosPanel.add(scrollPane);
         mainActivosPanel.add(tableActivosPanel);
         
@@ -175,13 +181,33 @@ public class Bibliotecarios extends JPanel implements ActionListener{
         } else if (e.getSource() == actividadeButton) {
             cardLayout.show(contentPanel, "Actividade");
         }else if(e.getSource() == escolherImagemButton){
+
             JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
+
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     ImageIcon newImageIcon = new ImageIcon(selectedFile.getAbsolutePath());
                     labelImg.setIcon(new ImageIcon(getScaledImage(newImageIcon.getImage(), 120, 120)));
                 }
+        }else if(e.getSource() == pesquisarButtonIcon){
+            pesquisarBibliotecario();
+        }else if(e.getSource() == deleteButton){
+            int rowIndex = tabela.getSelectedRow();
+            if (rowIndex != -1) {
+                String nome = (String) tabela.getValueAt(rowIndex, 0); 
+                excluirBibliotecario(nome);
+               
+                ((DefaultTableModel) tabela.getModel()).removeRow(rowIndex); 
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um registro para excluir.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }else if(e.getSource() == submeterButton){
+            enviarDadosParaBase();
+        }else if(e.getSource() == cancelelarButton){
+            nomeTextField.setText("");
+            emailTextField.setText("");
+            contactoTextField.setText("");
         }
     }
 
@@ -398,4 +424,132 @@ public class Bibliotecarios extends JPanel implements ActionListener{
 
         return formacaoPanel;
     }
+
+
+    public void pesquisarBibliotecario() {
+        String searchTerm = searchField.getText().trim();
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+        
+        String sql = "SELECT nome, email, contacto, sexo FROM bibliotecario WHERE nome LIKE ?";
+        
+        try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = stmt.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+            model.setRowCount(0);
+            
+            
+            while (rs.next()) {
+                
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String contacto = rs.getString("contacto");
+                String sexo = rs.getString("sexo");
+                
+                
+                
+                Object[] linha = {nome, email, contacto, sexo};
+                model.addRow(linha);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao buscar os dados: " + ex.getMessage());
+        }
+    }
+
+
+    private void excluirBibliotecario(String nome) {
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+        String sql = "DELETE FROM bibliotecario WHERE nome = ?";
+    
+        try {
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            PreparedStatement declaracao = conexao.prepareStatement(sql);
+    
+            declaracao.setString(1, nome);
+            declaracao.executeUpdate();
+    
+            JOptionPane.showMessageDialog(this, "Registro excluído com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir registro do banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    private void buscarDadosBaseDeDados() {
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+        
+        String sql = "SELECT nome, contacto, email, sexo FROM bibliotecario";
+        
+        try (Connection conexao = DriverManager.getConnection(url, usuario, senha);
+        PreparedStatement declaracao = conexao.prepareStatement(sql);
+        ResultSet resultado = declaracao.executeQuery()) {
+
+     
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+            model.setRowCount(0);
+
+            
+            while (resultado.next()) {
+                String nome = resultado.getString("nome");
+                String contacto = resultado.getString("contacto");
+                String email = resultado.getString("email");
+                String sexo = resultado.getString("sexo");
+
+                Object[] linha = {nome, email, contacto, sexo};
+                model.addRow(linha);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar dados no banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    private void enviarDadosParaBase() {
+        String nome = nomeTextField.getText();
+        String email = emailTextField.getText();
+        String contacto = contactoTextField.getText();
+        String sexo = masculinoRadioButton.isSelected() ? "M" : "F";
+
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+
+        
+
+        
+        try {
+            Connection conn = DriverManager.getConnection(url, usuario, senha);
+            String sql = "INSERT INTO bibliotecario (nome, email, contacto, sexo) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, nome);
+            stmt.setString(2, email);
+            stmt.setString(3, contacto);
+            stmt.setString(4, sexo);
+
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso!");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao inserir os dados: " + ex.getMessage());
+        }
+        nomeTextField.setText("");
+        emailTextField.setText("");
+        contactoTextField.setText("");
+         
+        buscarDadosBaseDeDados();
+    }
+  
 }

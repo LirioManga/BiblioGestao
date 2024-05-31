@@ -244,7 +244,7 @@ public class Home extends JFrame implements ActionListener{
                         System.out.println("entrei como bibliotecario");
                         dispose();
                        
-                        Bibliotecario bibliotecarioPanel = new Bibliotecario();
+                        Bibliotecario bibliotecarioPanel = new Bibliotecario(nome,"bibliotecario",frame);
                         frame.addPanel(bibliotecarioPanel, "bibliotecario");
                         frame.showPanel("bibliotecario");
                         repaint();

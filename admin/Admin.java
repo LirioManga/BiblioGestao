@@ -3,6 +3,8 @@ package admin;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import home.Home;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -13,11 +15,12 @@ public class Admin extends JPanel implements ActionListener{
 
     CardLayout cardLayout;
     String nome,status;
-
+    JFrame frame;
 
     public Admin(String nome,String status,JFrame frame) {
         this.nome = nome;
         this.status = status;
+        this.frame = frame;
         setLayout(new BorderLayout());
        
         cardLayout = new CardLayout();
@@ -126,7 +129,7 @@ public class Admin extends JPanel implements ActionListener{
     
         panelInfo.add(userPanel, BorderLayout.EAST);
         panelInfo.setBackground(Color.WHITE);
-        panelInfo.setPreferredSize(new Dimension(1100, 40)); // Ajuste conforme necessário para o layout desejado
+        panelInfo.setPreferredSize(new Dimension(1100, 40)); 
     
         
         return panelInfo;
@@ -146,7 +149,8 @@ public class Admin extends JPanel implements ActionListener{
         } else if (e.getSource() == buttonVisitante) {
             cardLayout.show(panelContent, "visitantes");
         } else if (e.getSource() == buttonExit) {
-            System.exit(0);
+           frame.dispose();
+           new Home();
         }
     }
 }

@@ -2,6 +2,15 @@ package admin;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -59,7 +68,7 @@ public class Visitantes extends JPanel implements ActionListener{
         scrollPane = new JScrollPane(tabela);
         scrollPane.setBounds(0,0,750,250);
         // // Funcao para preencher a tabela antes.
-        // //buscarDadosBaseDeDados();
+        buscarDadosBaseDeDados();
         
         
         JPanel deletePanel = new JPanel();
@@ -86,7 +95,132 @@ public class Visitantes extends JPanel implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e){
+        if(e.getSource() == pesquisarButtonIcon){
+            pesquisarVisitantes();
+        }else if(e.getSource() == deleteButton){
+            int rowIndex = tabela.getSelectedRow();
+            if (rowIndex != -1) {
+                String nome = (String) tabela.getValueAt(rowIndex, 0); 
+                excluirVisitante(nome);
+               
+                ((DefaultTableModel) tabela.getModel()).removeRow(rowIndex); 
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um registro para excluir.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
 
+        }
+    }
+
+
+    private void buscarDadosBaseDeDados() {
+
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+        
+        String sql = "SELECT nome, instituicao, contacto, dataEstadia FROM visitantes";
+
+        try (Connection conexao = DriverManager.getConnection(url, usuario, senha);
+             PreparedStatement declaracao = conexao.prepareStatement(sql);
+             ResultSet resultado = declaracao.executeQuery()) {
+
+     
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+            model.setRowCount(0);
+
+          
+            while (resultado.next()) {
+                String nome = resultado.getString("nome");
+                String instituicao = resultado.getString("instituicao");
+                String contacto = resultado.getString("contacto");
+                String dataEstadia= resultado.getString("dataEstadia");
+
+                Object[] linha = {nome, instituicao, contacto, dataEstadia};
+                model.addRow(linha);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar dados no banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void pesquisarVisitantes() {
+        String searchTerm = searchField.getText().trim();
+        String dataEstadiaSearch= searchField.getText();
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+    
+        String sql = "SELECT nome, instituicao, contacto, dataEstadia FROM visitantes WHERE nome LIKE ? OR dataEstadia = ?";
+    
+        try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+           
+            stmt.setString(1, "%" + searchTerm + "%");
+           
+       
+
+           
+            if (isValidDate(searchTerm)) {
+                stmt.setString(2, searchTerm); 
+            } else {
+                stmt.setString(2, ""); 
+            }
+    
+            
+            ResultSet rs = stmt.executeQuery();
+
+          
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+            model.setRowCount(0);
+           
+    
+            while (rs.next()) {
+                
+                String nome = rs.getString("nome");
+                String instituicao = rs.getString("instituicao");
+                String contacto = rs.getString("contacto");
+                String dataEstadia = rs.getString("dataEstadia");
+    
+               
+              
+                Object[] linha = {nome, instituicao, contacto, dataEstadia};
+                model.addRow(linha);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao buscar os dados: " + ex.getMessage());
+        }
+    }
+
+     private boolean isValidDate(String dateStr) {
+       try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate.parse(dateStr, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+
+    private void excluirVisitante(String nome) {
+        String url = "jdbc:mysql://localhost:3306/biblioteca";
+        String usuario = "root";
+        String senha = "";
+        String sql = "DELETE FROM visitantes WHERE nome = ?";
+    
+        try {
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
+            PreparedStatement declaracao = conexao.prepareStatement(sql);
+    
+            declaracao.setString(1, nome);
+            declaracao.executeUpdate();
+    
+            JOptionPane.showMessageDialog(this, "Registro excluído com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir registro do banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
