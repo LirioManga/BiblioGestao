@@ -1,31 +1,27 @@
-package bibliotecario;
+package visitante;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-
-import admin.AdminHome;
-import admin.Bibliotecarios;
-import admin.Visitantes;
 import home.Home;
 
-import java.awt.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Bibliotecario extends JPanel implements ActionListener{
 
-    JPanel panelItens,panelHome,panelBibliotecarios,panelVisitantes;
+public class Visitante extends JPanel implements ActionListener{
+
+     JPanel panelItens,panelHome,panelBibliotecarios,panelVisitantes;
     JPanel panelContent;
     JButton buttonHome, buttonLivros,buttonArtigos,buttonMonografias,buttonGitHub,buttonExit;
-
     CardLayout cardLayout;
-    String nome,status;
+
+    String status,nome;
     JFrame frame;
 
-    public Bibliotecario(String nome, String status, JFrame frame) {
+    public Visitante(String nome, String status, JFrame frame) {
         setLayout(new BorderLayout());
          this.nome = nome;
         this.status = status;
@@ -35,12 +31,11 @@ public class Bibliotecario extends JPanel implements ActionListener{
         panelContent = new JPanel(cardLayout);
         panelContent.setBackground(Color.black);
         
-       Livros livros = new Livros();
-       Artigos artigos = new Artigos();
-       Monografias monografias = new Monografias();
-       GitHub gitHub = new GitHub();
-    
-
+        Livros livros = new Livros();
+        Artigos artigos = new Artigos();
+        Monografias monografias = new Monografias();
+        GitHub gitHub = new GitHub();
+        
         panelContent.add(livros,"livros");
         panelContent.add(artigos, "artigos");
         panelContent.add(monografias,"monografias");
@@ -48,71 +43,13 @@ public class Bibliotecario extends JPanel implements ActionListener{
         
      
     
-        add(panelInfoBibliotecario(),BorderLayout.NORTH);
+        add(panelInfoVisitante(),BorderLayout.NORTH);
         add(panelMenu(),BorderLayout.WEST);
         add(panelContent,BorderLayout.CENTER);
         System.out.println(nome + " "+ status);
     }
 
-
-    public JPanel panelMenu(){
-        panelItens = new JPanel();
-        panelItens.setBackground(new Color(13, 95, 166));
-        panelItens.setPreferredSize(new Dimension(150,600));
-        panelItens.setLayout(new BoxLayout(panelItens,BoxLayout.Y_AXIS));
-
-
-        Dimension buttonSize = new Dimension(150, 50);
-
-        buttonLivros = new JButton("Livros");
-        buttonLivros.setFocusable(false);
-        buttonLivros.addActionListener(this);
-        buttonLivros.setMaximumSize(buttonSize);
-
-
-        buttonArtigos = new JButton("Artigos");
-        buttonArtigos.setFocusable(false);
-        buttonArtigos.addActionListener(this);
-        buttonArtigos.setMaximumSize(buttonSize);
-
-        buttonMonografias = new JButton("Monografias");
-        buttonMonografias.setFocusable(false);
-        buttonMonografias.addActionListener(this);
-        buttonMonografias.setMaximumSize(buttonSize);
-
-        buttonGitHub = new JButton("GitHub");
-        buttonGitHub.setFocusable(false);
-        buttonGitHub.addActionListener(this);
-        buttonGitHub.setMaximumSize(buttonSize);
-
-    
-
-        buttonExit = new JButton("Sair");
-        buttonExit.setFocusable(false);
-        buttonExit.addActionListener(this);
-        buttonExit.setMaximumSize(buttonSize);
-
-
-
-        panelItens.add(Box.createVerticalStrut(5)); 
-        panelItens.add(buttonLivros);
-        panelItens.add(Box.createVerticalStrut(5));
-        panelItens.add(buttonArtigos);
-        panelItens.add(Box.createVerticalStrut(5));
-        panelItens.add(buttonMonografias);
-        panelItens.add(Box.createVerticalStrut(5));
-        panelItens.add(buttonGitHub);
-        panelItens.add(Box.createVerticalStrut(5));
-        panelItens.add(buttonExit);
-       
-
-
-        return panelItens;
-    }
-
-
-
-    public JPanel panelInfoBibliotecario(){
+    public JPanel panelInfoVisitante(){
         JPanel panelInfo = new JPanel(new BorderLayout());
         
 
@@ -154,12 +91,64 @@ public class Bibliotecario extends JPanel implements ActionListener{
         return panelInfo;
     }
 
-    @Override
+    public JPanel panelMenu(){
+        panelItens = new JPanel();
+        panelItens.setBackground(new Color(13, 95, 166));
+        panelItens.setPreferredSize(new Dimension(150,600));
+        panelItens.setLayout(new BoxLayout(panelItens,BoxLayout.Y_AXIS));
+
+
+        Dimension buttonSize = new Dimension(150, 50);
+
+      
+
+        buttonLivros = new JButton("Livros");
+        buttonLivros.setFocusable(false);
+        buttonLivros.addActionListener(this);
+        buttonLivros.setMaximumSize(buttonSize);
+
+
+        buttonArtigos = new JButton("Artigos");
+        buttonArtigos.setFocusable(false);
+        buttonArtigos.addActionListener(this);
+        buttonArtigos.setMaximumSize(buttonSize);
+
+        buttonMonografias = new JButton("Monografias");
+        buttonMonografias.setFocusable(false);
+        buttonMonografias.addActionListener(this);
+        buttonMonografias.setMaximumSize(buttonSize);
+
+        buttonGitHub = new JButton("GitHub");
+        buttonGitHub.setFocusable(false);
+        buttonGitHub.addActionListener(this);
+        buttonGitHub.setMaximumSize(buttonSize);
+
+    
+
+        buttonExit = new JButton("Sair");
+        buttonExit.setFocusable(false);
+        buttonExit.addActionListener(this);
+        buttonExit.setMaximumSize(buttonSize);
+
+       
+        panelItens.add(Box.createVerticalStrut(10)); 
+        panelItens.add(buttonLivros);
+        panelItens.add(Box.createVerticalStrut(5));
+        panelItens.add(buttonArtigos);
+        panelItens.add(Box.createVerticalStrut(5));
+        panelItens.add(buttonMonografias);
+        panelItens.add(Box.createVerticalStrut(5));
+        panelItens.add(buttonGitHub);
+        panelItens.add(Box.createVerticalStrut(5));
+        panelItens.add(buttonExit);
+
+        return panelItens;
+    }
+
+     @Override
     public void actionPerformed(ActionEvent e){
-          if (e.getSource() == buttonHome) {
-            cardLayout.show(panelContent, "home");
-            System.out.println("Entrei");
-        } else if (e.getSource() == buttonLivros) {
+         
+        if (e.getSource() == buttonLivros) {
             cardLayout.show(panelContent, "livros");
         } else if (e.getSource() == buttonArtigos) {
             cardLayout.show(panelContent, "artigos");
@@ -174,7 +163,6 @@ public class Bibliotecario extends JPanel implements ActionListener{
         }
     }
 
-
     private void openWebpage(String urlString) {
         try {
             URI uri = new URI(urlString);
@@ -185,4 +173,3 @@ public class Bibliotecario extends JPanel implements ActionListener{
         }
     }
 }
-

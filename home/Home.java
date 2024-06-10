@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import admin.Admin;
 import bibliotecario.Bibliotecario;
+import visitante.Visitante;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -210,7 +211,7 @@ public class Home extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        
+      
         if(e.getSource() == loginButton){
             cardLayout.show(loginPanel, "login");
 
@@ -249,9 +250,8 @@ public class Home extends JFrame implements ActionListener{
                         frame.showPanel("bibliotecario");
                         repaint();
                         revalidate();
+                    }   
 
-                    }
-                    
                 }else{
                     JOptionPane.showMessageDialog(this, "Nome de usuário ou senha incorretos.");
 
@@ -260,10 +260,10 @@ public class Home extends JFrame implements ActionListener{
 
         }else if(e.getSource() == buttonEntrar){
             System.out.println("visitante");
-            if (nomeField.getText().isEmpty() || contactoField.getText().isEmpty() || nomeField.getText().equals("Insira o seu nome")|| contactoField.equals("(+258) 87635363532")) {
+            //if (nomeField.getText().isEmpty() || contactoField.getText().isEmpty() || nomeField.getText().equals("Insira o seu nome")|| contactoField.equals("(+258) 87635363532")) {
                 //JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
 
-            }else{
+           // }else{
                 String nome = nomeField.getText();
                 String contacto = contactoField.getText();
                 String instituicao = (String) comboBox.getSelectedItem();
@@ -271,12 +271,20 @@ public class Home extends JFrame implements ActionListener{
                 Date data = new Date();
                 Timestamp timestamp = new Timestamp(data.getTime());
               //  dadosVisitantes(nome,instituicao,contacto, timestamp);
-               System.out.println("dados enviados com sucesso");
-               nomeField.setText("");
-               contactoField.setText("");
-               dispose();
-               new Frame();
-            }
+                dispose();
+                Frame frame = new Frame();
+                Visitante visitante = new Visitante(nome,"Visitante",frame);
+                frame.addPanel(visitante, "visitante");
+                frame.showPanel("visitante");
+
+
+                System.out.println("dados enviados com sucesso");
+                nomeField.setText("");
+                contactoField.setText("");
+                repaint();
+                revalidate();
+
+           // }
         }
     }
 
