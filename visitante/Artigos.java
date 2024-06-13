@@ -3,9 +3,15 @@ package visitante;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Artigos extends JPanel implements ActionListener{
 
@@ -13,13 +19,16 @@ public class Artigos extends JPanel implements ActionListener{
     JPanel panelTitle,panelItens, panelContent, panelCadastroLivros, submeterPanel;
    
     JPanel informacaoInternaPanel, informacaoAdicionalPanel,searchPanel;
-    JTextField textEditora, textAutor, textArea, textTitulo, textIdioma, textNumeroPaginas, textLocalizacaoFisica, textISBN, textDataAquisicao, textNumeroCopias, textCodigoBarras;
+    JTextField textEditora, textAutor, textTitulo, textIdioma, textNumeroPaginas, textLocalizacaoFisica, textISBN, textDataAquisicao, textNumeroCopias, textCodigoBarras;
     JTextArea textResumo;
     CardLayout cardLayout;
     JButton submeterButton,cancelarButton,pesquisarButtonIcon;
     JLabel labelImg, pesquisarLabelIcon;
     ImageIcon pesquisarIcon;
     JTextField searchField;
+    JList<String> list;
+    JScrollPane listScrollPane;
+    JTextArea textArea;
 
     public Artigos(){
         setLayout(new BorderLayout());
@@ -74,39 +83,51 @@ public class Artigos extends JPanel implements ActionListener{
         Border emptyBorderTitulo = BorderFactory.createEmptyBorder(0, 50, 0, 20);
         Border compoundBorderTitulo = BorderFactory.createCompoundBorder(linBorderTitulo, emptyBorderTitulo);
         searchPanel.setBorder(compoundBorderTitulo);
-
-
-        JPanel panelsContainer = new JPanel();
-        panelsContainer.setLayout(new GridLayout(1, 2)); // 1 row, 2 columns
-
+       
+        informacaoAdicionalPanel = new JPanel(new FlowLayout());
         informacaoInternaPanel = new JPanel();
         informacaoInternaPanel.setBackground(Color.lightGray);
-        informacaoInternaPanel.setPreferredSize(new Dimension(500, 600));
-
-        informacaoAdicionalPanel = new JPanel();
-        informacaoAdicionalPanel.setBackground(Color.gray);
-        informacaoAdicionalPanel.setPreferredSize(new Dimension(100, 600));
+        informacaoInternaPanel.setPreferredSize(new Dimension(600, 400));
 
 
+        JPanel informacaoAdicionalPanel1 = new JPanel();
+        //informacaoAdicionalPanel1.setBackground(Color.yellow);
+        informacaoAdicionalPanel1.setPreferredSize(new Dimension(650, 400));
+        list = new JList<>();
+        JScrollPane listScrollPane = new JScrollPane(list);
+        listScrollPane.setPreferredSize(new Dimension(650,390));
+        informacaoAdicionalPanel1.add(listScrollPane);
 
-     
-        JList<String> itemList = new JList<>();
-        itemList.setPreferredSize(new Dimension(600, 550));
-        JScrollPane listScrollPane = new JScrollPane(itemList);
-        listScrollPane.setPreferredSize(new Dimension(470,500));
-        informacaoInternaPanel.add(listScrollPane, BorderLayout.CENTER);
+        JPanel informacaoAdicionalPanel2 = new JPanel();
+        //informacaoAdicionalPanel2.setBackground(Color.blue);
+        informacaoAdicionalPanel2.setPreferredSize(new Dimension(253, 250));
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Detalhes");       
+        informacaoAdicionalPanel2.setBorder(titledBorder);
+        textArea = new JTextArea(); 
+        textArea.setPreferredSize(new Dimension(245,220));
+        textArea.setEditable(false);
+        textArea.setLineWrap(true); 
+        textArea.setWrapStyleWord(true); 
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        informacaoAdicionalPanel2.add(scrollPane);
 
-       
-        JTextArea additionalInfoTextArea = new JTextArea();
-        additionalInfoTextArea.setPreferredSize(new Dimension(500, 400));
-        JScrollPane textAreaScrollPane = new JScrollPane(additionalInfoTextArea);
-        informacaoAdicionalPanel.add(textAreaScrollPane, BorderLayout.CENTER);
-
-        panelsContainer.add(informacaoInternaPanel);
-        panelsContainer.add(informacaoAdicionalPanel);
+        informacaoAdicionalPanel.add(Box.createVerticalGlue());
+        
+        informacaoAdicionalPanel.add(informacaoAdicionalPanel1);
+        informacaoAdicionalPanel.add(Box.createRigidArea(new Dimension(10, 50)));
+        informacaoAdicionalPanel.add(informacaoAdicionalPanel2);
 
         panelCadastroLivros.add(searchPanel, BorderLayout.NORTH);
-        panelCadastroLivros.add(panelsContainer, BorderLayout.CENTER);
+        panelCadastroLivros.add(informacaoAdicionalPanel,BorderLayout.CENTER);
+       
+        list.addListSelectionListener(e -> {
+         if (!e.getValueIsAdjusting()) {
+             String selectedTitle = list.getSelectedValue();
+             if (selectedTitle != null) {
+                 mostrarDetalhesDoArtigo(selectedTitle);
+             }
+         }
+     });
 
         return panelCadastroLivros;
     }
@@ -122,6 +143,62 @@ public class Artigos extends JPanel implements ActionListener{
 
     @Override 
     public void actionPerformed(ActionEvent e){
-            
+            if(e.getSource() == pesquisarButtonIcon){
+                pesquisarArtigo();
+            }  
+    }
+
+    private void pesquisarArtigo() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        String searchText = searchField.getText().trim();
+
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um termo de pesquisa.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "")) {
+            String query = "SELECT titulo FROM artigos WHERE titulo LIKE ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, "%" + searchText + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String titulo = rs.getString("titulo");
+                listModel.addElement(titulo);
+            }
+
+            if (listModel.isEmpty()) {
+                listModel.addElement("Nenhum livro encontrado.");
+            }
+
+            list.setModel(listModel);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao acessar a base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void mostrarDetalhesDoArtigo(String titulo) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "")) {
+            String query = "SELECT * FROM artigos WHERE titulo = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, titulo);
+            ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            String detalhes = "Autor: " + rs.getString("autor") + "\n"
+                    + "Titulo: " + rs.getString("titulo") + "\n"
+                    + "Editora: " + rs.getString("editora") + "\n";                   
+                   
+            textArea.setText(detalhes);
+        } else {
+            textArea.setText("Detalhes do livro não encontrados.");
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao acessar a base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+
     }
 }

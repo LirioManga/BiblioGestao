@@ -19,14 +19,16 @@ public class Livros extends JPanel implements ActionListener{
     JPanel panelTitle,panelItens, panelContent, panelCadastroLivros, submeterPanel;
    
     JPanel informacaoInternaPanel, informacaoAdicionalPanel,searchPanel;
-    JTextField textEditora, textAutor, textArea, textTitulo, textIdioma, textNumeroPaginas, textLocalizacaoFisica, textISBN, textDataAquisicao, textNumeroCopias, textCodigoBarras;
+    JTextField textEditora, textAutor, textTitulo, textIdioma, textNumeroPaginas, textLocalizacaoFisica, textISBN, textDataAquisicao, textNumeroCopias, textCodigoBarras;
     JTextArea textResumo;
     CardLayout cardLayout;
     JButton submeterButton,cancelarButton,pesquisarButtonIcon;
     JLabel labelImg, pesquisarLabelIcon;
     ImageIcon pesquisarIcon;
     JTextField searchField;
-
+    JList<String> list;
+    JScrollPane listScrollPane;
+    JTextArea textArea;
 
    
     
@@ -90,21 +92,21 @@ public class Livros extends JPanel implements ActionListener{
 
 
         JPanel informacaoAdicionalPanel1 = new JPanel();
-        informacaoAdicionalPanel1.setBackground(Color.yellow);
-        informacaoAdicionalPanel1.setPreferredSize(new Dimension(600, 400));
-        JList<String> list = new JList<>();
+        //informacaoAdicionalPanel1.setBackground(Color.yellow);
+        informacaoAdicionalPanel1.setPreferredSize(new Dimension(650, 400));
+        list = new JList<>();
         JScrollPane listScrollPane = new JScrollPane(list);
-        listScrollPane.setPreferredSize(new Dimension(585,390));
+        listScrollPane.setPreferredSize(new Dimension(650,390));
         informacaoAdicionalPanel1.add(listScrollPane);
 
-        // Criar o painel informacaoAdicionalPanel2
         JPanel informacaoAdicionalPanel2 = new JPanel();
-        informacaoAdicionalPanel2.setBackground(Color.blue);
-        informacaoAdicionalPanel2.setPreferredSize(new Dimension(250, 250));
-         TitledBorder titledBorder = BorderFactory.createTitledBorder("Detalhes");       
+        //informacaoAdicionalPanel2.setBackground(Color.blue);
+        informacaoAdicionalPanel2.setPreferredSize(new Dimension(253, 250));
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Detalhes");       
         informacaoAdicionalPanel2.setBorder(titledBorder);
-        JTextArea textArea = new JTextArea(); 
+        textArea = new JTextArea(); 
         textArea.setPreferredSize(new Dimension(245,220));
+        textArea.setEditable(false);
         textArea.setLineWrap(true); 
         textArea.setWrapStyleWord(true); 
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -118,15 +120,15 @@ public class Livros extends JPanel implements ActionListener{
        
         JPanel panelMensagem = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelMensagem.setPreferredSize(new Dimension(600, 100));
-        panelMensagem.setBackground(Color.PINK);
+        //panelMensagem.setBackground(Color.PINK);
 
        
-        JTextArea mensagemTextArea = new JTextArea(5, 40); // 3 rows, 40 columns
+        JTextArea mensagemTextArea = new JTextArea(5, 40); 
         mensagemTextArea.setLineWrap(true);
         mensagemTextArea.setWrapStyleWord(true);
+        mensagemTextArea.setEditable(false);
         JButton enviarButton = new JButton("Enviar");
 
-        // Adicionar a JTextArea e o botão ao painel panelMensagem
         panelMensagem.add(new JScrollPane(mensagemTextArea));
         panelMensagem.add(Box.createRigidArea(new Dimension(0, 50))); 
         panelMensagem.add(enviarButton);
@@ -136,7 +138,14 @@ public class Livros extends JPanel implements ActionListener{
        panelCadastroLivros.add(informacaoAdicionalPanel,BorderLayout.CENTER);
        panelCadastroLivros.add(panelMensagem, BorderLayout.SOUTH);
 
-
+       list.addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            String selectedTitle = list.getSelectedValue();
+            if (selectedTitle != null) {
+                mostrarDetalhesDoLivro(selectedTitle);
+            }
+        }
+    });
 
         return panelCadastroLivros;
     }
@@ -159,5 +168,58 @@ public class Livros extends JPanel implements ActionListener{
 
 
     private void pesquisarLivro() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        String searchText = searchField.getText().trim();
+
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um termo de pesquisa.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "")) {
+            String query = "SELECT titulo FROM livros WHERE titulo LIKE ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, "%" + searchText + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String titulo = rs.getString("titulo");
+                listModel.addElement(titulo);
+            }
+
+            if (listModel.isEmpty()) {
+                listModel.addElement("Nenhum livro encontrado.");
+            }
+
+            list.setModel(listModel);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao acessar a base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
+
+
+    private void mostrarDetalhesDoLivro(String titulo) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "")) {
+            String query = "SELECT * FROM livros WHERE titulo = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, titulo);
+            ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            String detalhes = "Título: " + rs.getString("titulo") + "\n"
+                    + "Autor: " + rs.getString("autor") + "\n"
+                    + "Editora: " + rs.getString("editora") + "\n";                   
+                   
+            textArea.setText(detalhes);
+        } else {
+            textArea.setText("Detalhes do livro não encontrados.");
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao acessar a base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+
+    }
+    
 }

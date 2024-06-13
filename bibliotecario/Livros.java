@@ -62,59 +62,56 @@ public class Livros extends JPanel implements ActionListener{
             informacaoInternaPanel = new JPanel();
             informacaoInternaPanel.setLayout(new GridLayout(7, 1, 10, 10));
             informacaoInternaPanel.setBorder(BorderFactory.createTitledBorder("Referências"));
-
-            // Criando e adicionando pequenos painéis para cada campo
-            addLabelAndTextField(informacaoInternaPanel, "Título do Livro");
-            addLabelAndTextField(informacaoInternaPanel, "Autor");
-            addLabelAndTextField(informacaoInternaPanel, "Editora");
-            addLabelAndTextField(informacaoInternaPanel, "Ano de Publicação");
-            addLabelAndTextField(informacaoInternaPanel, "Área/Categoria");
-            addLabelAndTextField(informacaoInternaPanel, "Idioma");
-            addLabelAndTextField(informacaoInternaPanel, "ISBN");
-
-                    // Painel de Informações Adicionais
-        informacaoAdicionalPanel = new JPanel();
-        informacaoAdicionalPanel.setLayout(new GridLayout(8, 2, 10, 10));
-        informacaoAdicionalPanel.setBorder(BorderFactory.createTitledBorder("Informação Interna"));
-
-        informacaoAdicionalPanel.add(new JLabel("Código de Barras"));
-        textCodigoBarras = new JTextField();
-        textCodigoBarras.setPreferredSize(new Dimension(300, 30));
-        informacaoAdicionalPanel.add(textCodigoBarras);
-
-        
-        informacaoAdicionalPanel.add(new JLabel("Número de Páginas"));
-        textNumeroPaginas = new JTextField();
-        textNumeroPaginas.setPreferredSize(new Dimension(300, 30));
-        informacaoAdicionalPanel.add(textNumeroPaginas);
-        
-        informacaoAdicionalPanel.add(new JLabel("Localização Física"));
-        textLocalizacaoFisica = new JTextField();
-        textLocalizacaoFisica.setPreferredSize(new Dimension(300, 30));
-        informacaoAdicionalPanel.add(textLocalizacaoFisica);
-        
-        // informacaoAdicionalPanel.add(new JLabel("ISBN"));
-        // textISBN = new JTextField();
-        // textISBN.setPreferredSize(new Dimension(300, 30));
-        // informacaoAdicionalPanel.add(textISBN);
-        
-        informacaoAdicionalPanel.add(new JLabel("Data de Aquisição"));
-        textDataAquisicao = new JTextField();
-        textDataAquisicao.setPreferredSize(new Dimension(300, 30));
-        informacaoAdicionalPanel.add(textDataAquisicao);
-
-        
-        informacaoAdicionalPanel.add(new JLabel("Número de Cópias"));
-        textNumeroCopias = new JTextField();
-        textNumeroCopias.setPreferredSize(new Dimension(300, 30));
-        informacaoAdicionalPanel.add(textNumeroCopias);
-
-        informacaoAdicionalPanel.add(new JLabel("Resumo"));
-        textResumo = new JTextArea();
-        JScrollPane scrollResumo = new JScrollPane(textResumo);
-        scrollResumo.setPreferredSize(new Dimension(300, 75));
-        informacaoAdicionalPanel.add(scrollResumo);
-
+            textTitulo = new JTextField();
+            addLabelAndTextField(informacaoInternaPanel, "Título do Livro", textTitulo);
+    
+            textAutor = new JTextField();
+            addLabelAndTextField(informacaoInternaPanel, "Autor", textAutor);
+    
+            textEditora = new JTextField();
+            addLabelAndTextField(informacaoInternaPanel, "Ano de Publicação", textEditora);
+    
+            textArea = new JTextField();
+            addLabelAndTextField(informacaoInternaPanel, "Área/Categoria", textArea);
+    
+            textIdioma = new JTextField();
+            addLabelAndTextField(informacaoInternaPanel, "Idioma", textIdioma);
+    
+            // Painel de Informações Adicionais
+            informacaoAdicionalPanel = new JPanel();
+            informacaoAdicionalPanel.setLayout(new GridLayout(8, 2, 10, 10));
+            informacaoAdicionalPanel.setBorder(BorderFactory.createTitledBorder("Informação Interna"));
+    
+            informacaoAdicionalPanel.add(new JLabel("Código de Barras"));
+            textCodigoBarras = new JTextField();
+            textCodigoBarras.setPreferredSize(new Dimension(300, 30));
+            informacaoAdicionalPanel.add(textCodigoBarras);
+    
+            informacaoAdicionalPanel.add(new JLabel("Número de Páginas"));
+            textNumeroPaginas = new JTextField();
+            textNumeroPaginas.setPreferredSize(new Dimension(300, 30));
+            informacaoAdicionalPanel.add(textNumeroPaginas);
+    
+            informacaoAdicionalPanel.add(new JLabel("Localização Física"));
+            textLocalizacaoFisica = new JTextField();
+            textLocalizacaoFisica.setPreferredSize(new Dimension(300, 30));
+            informacaoAdicionalPanel.add(textLocalizacaoFisica);
+    
+            informacaoAdicionalPanel.add(new JLabel("Data de Aquisição"));
+            textDataAquisicao = new JTextField();
+            textDataAquisicao.setPreferredSize(new Dimension(300, 30));
+            informacaoAdicionalPanel.add(textDataAquisicao);
+    
+            informacaoAdicionalPanel.add(new JLabel("Número de Cópias"));
+            textNumeroCopias = new JTextField();
+            textNumeroCopias.setPreferredSize(new Dimension(300, 30));
+            informacaoAdicionalPanel.add(textNumeroCopias);
+    
+            informacaoAdicionalPanel.add(new JLabel("Resumo"));
+            textResumo = new JTextArea();
+            JScrollPane scrollResumo = new JScrollPane(textResumo);
+            scrollResumo.setPreferredSize(new Dimension(300, 75));
+            informacaoAdicionalPanel.add(scrollResumo);
 
         // Adiciona os paineis de informações interna e adicional ao painel principal
         JPanel infoPanel = new JPanel();
@@ -156,21 +153,56 @@ public class Livros extends JPanel implements ActionListener{
     }
 
 
-    private void addLabelAndTextField(JPanel parentPanel, String labelText) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.RIGHT,20,10));
-        
-        JLabel label = new JLabel(labelText);
-        JTextField textField = new JTextField();
-        textField.setPreferredSize(new Dimension(300, 30));
-        
-        panel.add(label);
-        panel.add(textField);
-        
-        parentPanel.add(panel);
-    }
+  
     @Override 
     public void actionPerformed(ActionEvent e){
-        
+        if(e.getSource() == cancelarButton){
+            textTitulo.setText("");
+            textAutor.setText("");
+            textEditora.setText("");
+            textArea.setText("");
+            textIdioma.setText("");
+            textCodigoBarras.setText("");
+            textNumeroPaginas.setText("");
+            textLocalizacaoFisica.setText("");
+            textDataAquisicao.setText("");
+            textNumeroCopias.setText("");
+            textResumo.setText("");
+        }else if(e.getSource() == submeterButton){
+            if (validarCampos()) {
+                JOptionPane.showMessageDialog(this, "Todos os campos estão preenchidos corretamente.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private boolean validarCampos() {
+        if (textTitulo.getText().trim().isEmpty() || 
+            textAutor.getText().trim().isEmpty() || 
+            textEditora.getText().trim().isEmpty() || 
+            textArea.getText().trim().isEmpty() || 
+            textIdioma.getText().trim().isEmpty() || 
+            textCodigoBarras.getText().trim().isEmpty() || 
+            textNumeroPaginas.getText().trim().isEmpty() || 
+            textLocalizacaoFisica.getText().trim().isEmpty() || 
+            textDataAquisicao.getText().trim().isEmpty() || 
+            textNumeroCopias.getText().trim().isEmpty() || 
+            textResumo.getText().trim().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+    private void addLabelAndTextField(JPanel parentPanel, String labelText, JTextField textField) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+
+        JLabel label = new JLabel(labelText);
+        textField.setPreferredSize(new Dimension(300, 30));
+    
+        panel.add(label);
+        panel.add(textField);
+    
+        parentPanel.add(panel);
     }
 }
